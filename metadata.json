@@ -1,0 +1,8 @@
+{
+  "name": "The AI-Powered Productive Life",
+  "description": "Interactive public-sector masterclass dossier for designing AI-powered personal productivity systems, reusable assistants, grounded knowledge workflows, and a 90-day readiness plan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

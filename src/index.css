@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Source Serif 4", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-paper: #faf9f5;
+  --color-surface: #ffffff;
+  --color-stone-tint: #f1efe8;
+  --color-stone-deep: #e6e2d6;
+  --color-ink: #17181a;
+  --color-ink-muted: #56585c;
+  --color-rule: #dedad0;
+  --color-rule-strong: #c8c4b8;
+
+  --color-accent-gold: #f2b705;
+  --color-slate-teal: #1f4e5f;
+  --color-slate-teal-soft: #e7f0f3;
+  --color-ochre: #785008;
+  --color-ochre-soft: #f5e6c4;
+  --color-forest: #2b6e52;
+  --color-forest-soft: #e6f2ec;
+  --color-crimson: #b42318;
+  --color-crimson-soft: #fbeae8;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+    overflow-x: clip;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2.5px solid var(--color-slate-teal);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

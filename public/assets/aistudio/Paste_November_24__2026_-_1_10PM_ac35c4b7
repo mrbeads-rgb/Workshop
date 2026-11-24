@@ -1,0 +1,3288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="artifact-type" content="narrative">
+<meta name="design-style" content="briefing">
+<title>The AI-Powered Productive Life — Interactive Masterclass</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  color-scheme: light;
+
+  /* 1. Briefing Style Tokens */
+  --background: #faf9f5;
+  --surface-container-low: #ffffff;
+  --surface-container: #f1efe8;
+  --surface-container-high: #e6e2d6;
+
+  --on-surface: #17181a;
+  --on-surface-variant: #56585c;
+
+  --outline: #17181a;
+  --outline-variant: #dedad0;
+  --border-subtle: #c8c4b8;
+
+  --primary: #17181a;
+  --on-primary: #faf9f5;
+  --primary-container: #f2b705;
+  --on-primary-container: #17181a;
+  --secondary: #1f4e5f;
+  --secondary-soft: #e7f0f3;
+  --tertiary: #785008;
+  --tertiary-soft: #f5e6c4;
+  --error: #b42318;
+  --error-soft: #fbeae8;
+  --on-error: #ffffff;
+
+  --data-1: #1f4e5f;
+  --data-2: #d99000;
+  --data-3: #2b6e52;
+  --data-4: #b84a39;
+  --data-context: #c4bfb2;
+
+  --font-headline: 'Source Serif 4', serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-label: 'Geist Mono', monospace;
+
+  --rounded: 0.25rem;
+  --rounded-lg: 0.375rem;
+  --rounded-full: 0.25rem;
+
+  --section-rule: 1.5px solid var(--outline);
+  --card-border: 1px solid var(--outline-variant);
+  --badge-radius: 2px;
+  --heading-tracking: -0.02em;
+  --label-tracking: 0.08em;
+
+  /* 2. Shared Tokens */
+  --positive: #2b6e52;
+  --positive-soft: #e6f2ec;
+  --warning: #8a5a00;
+  --warning-soft: #fef3c7;
+  --focus: #1f4e5f;
+
+  /* Narrative Type Scale */
+  --display-size: clamp(2.35rem, 1.4rem + 3.4vw, 4rem);
+  --headline-size: clamp(1.65rem, 1.2rem + 1.6vw, 2.35rem);
+  --subhead-size: clamp(1.18rem, 1.05rem + 0.45vw, 1.4rem);
+  --body-size: clamp(1rem, 0.96rem + 0.18vw, 1.0625rem);
+  --label-size: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+
+  /* Spacing Scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 5.5rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+}
+
+/* Base Reset */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body {
+  overflow-x: clip;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+  color: var(--on-surface);
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+header { position: static !important; }
+
+.page-shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-lg) var(--space-3xl);
+}
+.page-shell * { min-width: 0; }
+
+/* Focus Ring */
+:focus-visible {
+  outline: 2.5px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* Dossier Section Bars & Typography */
+.dossier-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  border-bottom: var(--section-rule);
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+.dossier-bar-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.dossier-pill {
+  display: inline-block;
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.6875rem;
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  padding: 0.22rem 0.55rem;
+  border-radius: var(--badge-radius);
+}
+.dossier-meta {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.hero-title {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  font-size: var(--display-size);
+  letter-spacing: var(--heading-tracking);
+  line-height: 1.07;
+  color: var(--on-surface);
+  margin: var(--space-sm) 0 var(--space-md);
+  max-width: 18ch;
+}
+.section-title {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  font-size: var(--headline-size);
+  letter-spacing: var(--heading-tracking);
+  line-height: 1.12;
+  color: var(--on-surface);
+  margin: 0 0 var(--space-xs);
+}
+.subhead {
+  font-family: var(--font-headline);
+  font-weight: 600;
+  font-size: var(--subhead-size);
+  line-height: 1.25;
+  color: var(--on-surface);
+  margin: 0 0 var(--space-xs);
+}
+.standfirst {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(1.05rem, 1rem + 0.35vw, 1.25rem);
+  color: var(--secondary);
+  line-height: 1.45;
+  margin: 0 0 var(--space-lg);
+  max-width: 68ch;
+}
+.prose {
+  max-width: 65ch;
+  color: var(--on-surface);
+  margin: 0 0 var(--space-md);
+}
+.muted {
+  color: var(--on-surface-variant);
+  font-size: 0.9375rem;
+}
+.index-num {
+  font-family: var(--font-label);
+  font-weight: 600;
+  font-size: var(--label-size);
+  color: var(--secondary);
+  letter-spacing: 0.04em;
+}
+.tabular {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* Sections & Rhythm */
+.module-section {
+  margin-top: var(--space-3xl);
+  scroll-margin-top: var(--space-lg);
+}
+.module-section:first-of-type {
+  margin-top: var(--space-xl);
+}
+
+/* Cards & Asides */
+.figure-card {
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-lg);
+}
+.figure-card-tight {
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md);
+}
+.aside-box {
+  background: var(--surface-container);
+  border-top: var(--section-rule);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: 0 0 var(--rounded-lg) var(--rounded-lg);
+}
+.teacher-note {
+  background: var(--surface-container);
+  border-left: 3px solid var(--secondary);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: 0 var(--rounded-lg) var(--rounded-lg) 0;
+  margin: var(--space-md) 0;
+}
+.teacher-note-label {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  text-transform: uppercase;
+  letter-spacing: var(--label-tracking);
+  color: var(--secondary);
+  font-weight: 600;
+  display: block;
+  margin-bottom: var(--space-xs);
+}
+
+/* Grids */
+.grid-asymmetric {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: var(--space-lg);
+  align-items: start;
+}
+.grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg);
+}
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+  gap: var(--space-md);
+}
+
+/* Hero Top Grid & Progress Strip */
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  gap: var(--space-xl);
+  align-items: start;
+}
+.progress-bar-track {
+  width: 100%;
+  height: 10px;
+  background: var(--surface-container-high);
+  border-radius: var(--badge-radius);
+  overflow: hidden;
+  margin: var(--space-sm) 0;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--secondary);
+  width: 0%;
+  transition: width var(--dur-long) var(--ease-out);
+}
+
+/* Chapter Nav Strip */
+.chapter-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--outline-variant);
+  border-bottom: 1px solid var(--outline-variant);
+  margin: var(--space-lg) 0;
+}
+.chapter-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0.4rem 0.75rem;
+  text-decoration: none;
+  color: var(--on-surface);
+  background: var(--surface-container-low);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--rounded);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+}
+.chapter-link:hover {
+  background: var(--surface-container);
+  border-color: var(--outline);
+}
+.chapter-link .num {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  color: var(--secondary);
+}
+
+/* Buttons */
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: center;
+}
+button, .btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  min-height: 44px;
+  padding: 0.55rem 1rem;
+  border-radius: var(--rounded);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+  border: 1px solid transparent;
+}
+.btn-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+}
+.btn-primary:hover {
+  background: var(--secondary);
+  border-color: var(--secondary);
+}
+.btn-secondary {
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+  border: 1px solid var(--border-subtle);
+}
+.btn-secondary:hover {
+  background: var(--surface-container);
+}
+.btn-accent {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  border-color: var(--primary-container);
+}
+.btn-accent:hover {
+  box-shadow: inset 0 0 0 1px var(--outline);
+}
+.btn-sm {
+  min-height: 44px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.84rem;
+}
+.btn-active {
+  background: var(--secondary);
+  color: var(--on-primary);
+  border-color: var(--secondary);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Forms & Always-Visible Labels */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.form-field.full {
+  grid-column: 1 / -1;
+}
+.field-label {
+  font-family: var(--font-label);
+  font-size: var(--label-size);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--on-surface);
+  font-weight: 600;
+}
+.field-hint {
+  font-size: 0.8125rem;
+  color: var(--on-surface-variant);
+}
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="search"],
+select,
+textarea {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--on-surface);
+  background: var(--surface-container-low);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--rounded);
+  padding: 0.6rem 0.75rem;
+  min-height: 44px;
+  width: 100%;
+  transition: box-shadow var(--dur-micro) var(--ease-out);
+}
+select {
+  padding-right: 2.25rem;
+}
+textarea {
+  min-height: 92px;
+  resize: vertical;
+  line-height: 1.5;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--focus);
+}
+
+/* Badges & Traffic Light Pills */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-label);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--badge-radius);
+}
+.tag-green { background: var(--positive-soft); color: var(--positive); }
+.tag-amber { background: var(--tertiary-soft); color: var(--tertiary); }
+.tag-red { background: var(--error-soft); color: var(--error); }
+.tag-slate { background: var(--secondary-soft); color: var(--secondary); }
+.tag-stone { background: var(--surface-container); color: var(--on-surface-variant); }
+
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  background: var(--surface-container-low);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+thead th {
+  font-family: var(--font-label);
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: left;
+  padding: 0.75rem 0.9rem;
+  background: var(--surface-container);
+  border-bottom: var(--section-rule);
+  color: var(--on-surface);
+}
+tbody td {
+  padding: 0.75rem 0.9rem;
+  border-bottom: 1px solid var(--outline-variant);
+  vertical-align: top;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr.row-highlight { background: var(--tertiary-soft); }
+tbody tr.row-alert { background: var(--error-soft); }
+.num-col { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--font-label); }
+
+/* Interactive Module Components */
+.shift-card {
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-top: 3px solid var(--secondary);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md) var(--space-lg);
+}
+.pillar-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+  gap: var(--space-md);
+}
+.pillar-card {
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+.pillar-card .mins {
+  font-family: var(--font-headline);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Traffic-Light Card Sort */
+.sort-card {
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+.sort-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+.sort-btn {
+  min-height: 44px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.82rem;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-container-low);
+  color: var(--on-surface);
+}
+.sort-btn.chosen-green { background: var(--positive); color: var(--on-primary); border-color: var(--positive); }
+.sort-btn.chosen-amber { background: var(--tertiary); color: var(--on-primary); border-color: var(--tertiary); }
+.sort-btn.chosen-red { background: var(--error); color: var(--on-error); border-color: var(--error); }
+
+.feedback-line {
+  font-size: 0.875rem;
+  padding: var(--space-sm);
+  border-radius: var(--rounded);
+  line-height: 1.45;
+}
+.feedback-ok { background: var(--positive-soft); color: var(--positive); }
+.feedback-warn { background: var(--error-soft); color: var(--error); }
+
+/* CATALYST Stepper */
+.catalyst-rail {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+}
+.cat-step-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 0.25rem;
+  min-height: 64px;
+  background: var(--surface-container-low);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--rounded);
+  color: var(--on-surface);
+  text-align: center;
+}
+.cat-step-btn .cat-letter {
+  font-family: var(--font-headline);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.cat-step-btn .cat-word {
+  font-family: var(--font-label);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+}
+.cat-step-btn.active {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+}
+.cat-step-btn.active .cat-letter {
+  color: var(--primary-container);
+}
+
+/* Output Previews & Code/Prompt Blocks */
+.output-box {
+  background: var(--surface-container);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--rounded);
+  padding: var(--space-md);
+  font-size: 0.92rem;
+  white-space: pre-wrap;
+  line-height: 1.55;
+  color: var(--on-surface);
+}
+.prompt-text-box {
+  font-family: var(--font-body);
+  background: var(--background);
+  border: 1px solid var(--outline-variant);
+  border-left: 3px solid var(--secondary);
+  border-radius: var(--rounded);
+  padding: var(--space-md);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+/* Stacked Time Bar */
+.stacked-bar {
+  display: flex;
+  height: 18px;
+  border-radius: var(--badge-radius);
+  overflow: hidden;
+  background: var(--surface-container-high);
+  margin: var(--space-sm) 0;
+}
+.bar-seg {
+  height: 100%;
+  transition: width var(--dur-short) var(--ease-out);
+}
+.seg-work { background: var(--data-1); }
+.seg-commute { background: var(--data-2); }
+.seg-family { background: var(--data-3); }
+.seg-study { background: var(--data-4); }
+.seg-rest { background: var(--secondary); opacity: 0.55; }
+
+/* Grounded Notebook Citations */
+.doc-pane {
+  max-height: 360px;
+  overflow-y: auto;
+  padding: var(--space-md);
+  background: var(--background);
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--rounded);
+  font-size: 0.92rem;
+}
+.doc-clause {
+  padding: 0.4rem 0.55rem;
+  border-radius: var(--rounded);
+  margin-bottom: 0.35rem;
+  transition: background-color var(--dur-short) var(--ease-out);
+}
+.doc-clause.cited-hit {
+  background: var(--primary-container);
+  color: var(--on-primary-container);
+  font-weight: 600;
+}
+
+/* Prompt Library Cards */
+.prompt-card {
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-md) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* Inline Toast / Status */
+.inline-status {
+  font-family: var(--font-label);
+  font-size: 0.8rem;
+  color: var(--positive);
+  font-weight: 600;
+}
+
+/* Details / Collapsible Secondary Info */
+details {
+  background: var(--surface-container-low);
+  border: var(--card-border);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-sm) var(--space-md);
+}
+summary {
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--secondary);
+}
+
+/* Chart container height guardrail */
+.chart-box {
+  position: relative;
+  min-height: 320px;
+  width: 100%;
+}
+
+/* Responsive Rules */
+@media (max-width: 860px) {
+  .hero-grid, .grid-asymmetric, .grid-2col, .grid-3col {
+    grid-template-columns: 1fr;
+  }
+  .catalyst-rail {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .page-shell {
+    padding: var(--space-md) var(--space-md) var(--space-2xl);
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .catalyst-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page-shell">
+
+  <!-- HEADER & OPENING -->
+  <header id="sec-opening">
+    <div class="dossier-bar">
+      <div class="dossier-bar-left">
+        <span class="dossier-pill">Masterclass Dossier</span>
+        <span class="dossier-meta">One-Day Public-Sector Programme · 08:00–15:00 · 4 Pillars · 10 Workbooks · 24 Prompts</span>
+      </div>
+      <span class="dossier-meta" id="save-status-badge">Ready · Local Session</span>
+    </div>
+
+    <div class="hero-grid">
+      <div>
+        <h1 class="hero-title">The AI-Powered Productive Life</h1>
+        <p class="standfirst">Designing AI-powered systems for personal productivity, professional excellence, and future readiness—moving from asking one-off questions to building reusable assistants, verified workflows, and a 90-day plan.</p>
+        <p class="prose">Most professionals spend decades inside institutional structures—attending meetings, writing reports from scratch, and borrowing their routines from a job title. This interactive masterclass treats your life, your daily role, your department, and your future beyond any title as one connected design problem. Everything works on a smartphone with free-tier accounts, using fictional or public data so you learn safe hands before fast hands.</p>
+
+        <div class="teacher-note">
+          <span class="teacher-note-label">Teacher's Promise — By the End of This Masterclass</span>
+          You will leave with five working assets: a <strong>Personal Operating System</strong>, a tested <strong>Professional Assistant</strong>, a <strong>Document-Grounded Knowledge Notebook</strong>, a <strong>Departmental Workflow Redesign</strong>, and a <strong>Future-Readiness Plan v0.1</strong>—backed by the CATALYST Loop and a 24-prompt library.
+        </div>
+      </div>
+
+      <aside class="figure-card">
+        <div class="dossier-bar">
+          <span class="index-num">WORKBOOK PROGRESS</span>
+          <span class="dossier-meta" id="mastery-pct">0%</span>
+        </div>
+        <div class="subhead tabular" id="mastery-count">0 of 8 Hands-On Milestones</div>
+        <div class="progress-bar-track" aria-label="Masterclass completion progress">
+          <div class="progress-bar-fill" id="mastery-bar"></div>
+        </div>
+        <p class="muted">Every exercise, workbook field, Context Card, and Gain Log entry saves automatically so you can pause and return.</p>
+        <div class="btn-row" style="margin-top: var(--space-md);">
+          <button type="button" class="btn-primary btn-sm" onclick="exportFullWorkbook()">
+            <i data-lucide="download" aria-hidden="true"></i>
+            Download Workbook (.txt)
+          </button>
+          <button type="button" class="btn-secondary btn-sm" id="reset-all-btn" onclick="handleResetAll(this)">
+            Reset Progress
+          </button>
+        </div>
+        <div id="export-feedback" class="inline-status" style="margin-top: var(--space-xs);"></div>
+      </aside>
+    </div>
+
+    <nav class="chapter-nav" aria-label="Masterclass chapters">
+      <a class="chapter-link" href="#sec-opening"><span class="num">00</span> Opening Rescue</a>
+      <a class="chapter-link" href="#sec-foundations"><span class="num">01</span> Safety &amp; CATALYST</a>
+      <a class="chapter-link" href="#sec-pillar1"><span class="num">02</span> Pillar 1 · Chief of Staff</a>
+      <a class="chapter-link" href="#sec-pillar2"><span class="num">03</span> Pillar 2 · Multiplier</a>
+      <a class="chapter-link" href="#sec-pillar3"><span class="num">04</span> Pillar 3 · Organisation</a>
+      <a class="chapter-link" href="#sec-pillar4"><span class="num">05</span> Pillar 4 · Future</a>
+      <a class="chapter-link" href="#sec-prompts"><span class="num">06</span> 24 Prompts &amp; 90-Day Plan</a>
+    </nav>
+  </header>
+
+  <!-- THREE SHIFTS & FOUR PILLARS ARCHITECTURE -->
+  <section class="module-section" aria-label="Architecture and Opening Exercises">
+    <div class="grid-3col" style="margin-bottom: var(--space-lg);">
+      <div class="shift-card">
+        <span class="index-num">SHIFT 01</span>
+        <h2 class="subhead" style="margin-top: var(--space-xs);">From Asking to Designing</h2>
+        <p class="muted" style="margin: 0;">Move past one-off chat questions to persistent assistants, templates, and workflows that hold your standards and context once.</p>
+      </div>
+      <div class="shift-card">
+        <span class="index-num">SHIFT 02</span>
+        <h2 class="subhead" style="margin-top: var(--space-xs);">From Job Title to Portfolio</h2>
+        <p class="muted" style="margin: 0;">Your job title is not your identity; your experience is an asset; your future beyond any single post requires intentional design.</p>
+      </div>
+      <div class="shift-card">
+        <span class="index-num">SHIFT 03</span>
+        <h2 class="subhead" style="margin-top: var(--space-xs);">From Chasing to Designing Work</h2>
+        <p class="muted" style="margin: 0;">Spot repetitive administrative effort in your department and redesign it into checkable systems within approved boundaries.</p>
+      </div>
+    </div>
+
+    <div class="pillar-strip" style="margin-bottom: var(--space-xl);">
+      <div class="pillar-card">
+        <div>
+          <span class="tag tag-slate">Pillar 1 · Self</span>
+          <h3 class="subhead" style="margin-top: var(--space-xs);">Personal Chief of Staff</h3>
+          <p class="muted" style="margin: 0;">How do I take control of my time, goals, and weekly energy?</p>
+        </div>
+        <div class="mins">70 min <span class="dossier-meta">· 19.7%</span></div>
+      </div>
+      <div class="pillar-card">
+        <div>
+          <span class="tag tag-slate">Pillar 2 · Role</span>
+          <h3 class="subhead" style="margin-top: var(--space-xs);">Professional Multiplier</h3>
+          <p class="muted" style="margin: 0;">How do I turn recurring minutes, briefs, and reports into reusable assistants?</p>
+        </div>
+        <div class="mins">80 min <span class="dossier-meta">· 22.5%</span></div>
+      </div>
+      <div class="pillar-card">
+        <div>
+          <span class="tag tag-slate">Pillar 3 · Team</span>
+          <h3 class="subhead" style="margin-top: var(--space-xs);">Organisational Intelligence</h3>
+          <p class="muted" style="margin: 0;">How do I ground policy answers and redesign departmental processes?</p>
+        </div>
+        <div class="mins">80 min <span class="dossier-meta">· 22.5%</span></div>
+      </div>
+      <div class="pillar-card">
+        <div>
+          <span class="tag tag-slate">Pillar 4 · Future</span>
+          <h3 class="subhead" style="margin-top: var(--space-xs);">Future-Readiness Partner</h3>
+          <p class="muted" style="margin: 0;">How do I stay valuable, skilled, and purposeful beyond my title?</p>
+        </div>
+        <div class="mins">50 min <span class="dossier-meta">· 14.1%</span></div>
+      </div>
+    </div>
+
+    <!-- Opening Exercise E1 & Demo D1 -->
+    <div class="grid-asymmetric">
+      <!-- Demo D1 -->
+      <div class="figure-card">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Live Demo D1</span>
+            <span class="dossier-meta">The Three-Minute Rescue · Pack A (Fictional FAIM Notes)</span>
+          </div>
+        </div>
+        <h2 class="subhead">One Hour of Drafting Becomes One Minute of Review</h2>
+        <p class="muted">Compare how raw scribbled notes from a fictional Planning Department meeting become structured outputs—and notice the subtle warning hidden inside an unchecked first draft.</p>
+        <div class="btn-row" style="margin: var(--space-md) 0;">
+          <button type="button" class="btn-secondary btn-sm btn-active" id="d1-btn-raw" onclick="setD1View('raw')">1. Raw Scribbled Notes</button>
+          <button type="button" class="btn-secondary btn-sm" id="d1-btn-ai" onclick="setD1View('ai')">2. AI 3-Minute Rescue Output</button>
+          <button type="button" class="btn-secondary btn-sm" id="d1-btn-catch" onclick="setD1View('catch')">3. Teacher's Foreshadowing</button>
+        </div>
+        <div id="d1-output" class="output-box"></div>
+      </div>
+
+      <!-- Exercise E1 -->
+      <div class="figure-card">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Exercise E1</span>
+            <span class="dossier-meta">Title Card · Returns in Pillar 4</span>
+          </div>
+        </div>
+        <h2 class="subhead">Who Are You Without Your Job Title?</h2>
+        <p class="muted">Before we build any tool, write one honest sentence describing who you are without using your job title, grade level, or department. Seal it—we reopen it in Pillar 4.</p>
+        <div class="form-field" style="margin-top: var(--space-md);">
+          <label class="field-label" for="e1-title-card">Your Identity Sentence (No Title Allowed)</label>
+          <textarea id="e1-title-card" placeholder="For example: I am a patient problem-solver who brings order to chaotic records, mentors younger colleagues, and builds community projects."></textarea>
+        </div>
+        <div class="btn-row" style="margin-top: var(--space-md);">
+          <button type="button" class="btn-primary btn-sm" onclick="toggleSealTitleCard()" id="e1-seal-btn">Seal Title Card</button>
+          <span class="inline-status" id="e1-status"></span>
+        </div>
+        <div id="e1-sealed-envelope" class="aside-box" style="display: none; margin-top: var(--space-md);">
+          <span class="tag tag-amber">Sealed Dossier Card</span>
+          <p class="muted" style="margin: var(--space-xs) 0 0;">Your Title Card is sealed in your personal workbook and waiting for you in Section 05 (Pillar 4).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 01: SAFE HANDS, SMART HANDS & CATALYST LOOP -->
+  <section class="module-section" id="sec-foundations">
+    <div class="dossier-bar">
+      <div class="dossier-bar-left">
+        <span class="dossier-pill">Section 01</span>
+        <span class="dossier-meta">Foundations · Data Protection &amp; Methodology</span>
+      </div>
+      <span class="index-num">35 MIN BLOCK</span>
+    </div>
+    <h2 class="section-title">Safe Hands, Smart Hands: The Traffic-Light Rule &amp; The CATALYST Loop</h2>
+    <p class="standfirst">Safety and method come before speed. Treat any free personal AI account like a public noticeboard unless your organisation has formally approved and deployed it.</p>
+
+    <!-- Traffic Light Rules -->
+    <div class="grid-3col" style="margin-bottom: var(--space-xl);">
+      <div class="figure-card">
+        <span class="tag tag-green">Green · Safe for Free Tools</span>
+        <h3 class="subhead" style="margin-top: var(--space-sm);">Public, Fictional, or Yours Alone</h3>
+        <p class="muted" style="margin: 0;">Published annual reports, public circulars, fictional training data, or your own personal schedule and study goals. Safe to practise with freely.</p>
+      </div>
+      <div class="figure-card">
+        <span class="tag tag-amber">Amber · Anonymise or Approved Tool</span>
+        <h3 class="subhead" style="margin-top: var(--space-sm);">Internal, Non-Sensitive Material</h3>
+        <p class="muted" style="margin: 0;">Unpublished zone totals with no personal identifiers, or internal non-confidential SOPs. Strip names/numbers or use an approved institutional tool.</p>
+      </div>
+      <div class="figure-card">
+        <span class="tag tag-red">Red · Never in a Public Tool</span>
+        <h3 class="subhead" style="margin-top: var(--space-sm);">Confidential, Personal, or Legal Data</h3>
+        <p class="muted" style="margin: 0;">Staff payroll, citizen complaints with phone numbers, disciplinary notes, draft restructuring memos, passwords, or security records. Never paste these.</p>
+      </div>
+    </div>
+
+    <div class="teacher-note" style="margin-bottom: var(--space-xl);">
+      <span class="teacher-note-label">Governance &amp; Two Settings to Change Today</span>
+      Under the <strong>Nigeria Data Protection Act 2023</strong> (and the August 2026 Federal MDA compliance circular requiring Data Protection Officers), public bodies must keep a human in the loop—Section 37 guards against automated decisions on citizen welfare or HR without human oversight. Before running your first prompt: <strong>(1)</strong> turn off chat history/model training in settings, and <strong>(2)</strong> use temporary or incognito chats for anything sensitive.
+    </div>
+
+    <!-- Exercise E2: 10-Card Sort -->
+    <div class="figure-card" style="margin-bottom: var(--space-2xl);">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">Exercise E2</span>
+          <span class="dossier-meta">Interactive Card Sort · Target: 8 / 10</span>
+        </div>
+        <span class="subhead tabular" id="e2-score-display">Score: 0 / 10</span>
+      </div>
+      <h3 class="subhead">Would You Paste This Into a Free Personal AI Assistant?</h3>
+      <p class="muted">Classify each of these ten real-world public-sector items as Green, Amber, or Red. Pay close attention to items 05 and 09—they spark the most debate.</p>
+      <div class="card-grid" id="e2-cards-container" style="margin-top: var(--space-md);"></div>
+    </div>
+
+    <!-- The CATALYST Loop -->
+    <div class="dossier-bar">
+      <div class="dossier-bar-left">
+        <span class="dossier-pill">Framework</span>
+        <span class="dossier-meta">Beyond Prompting · Eight Stages of an AI System Designer</span>
+      </div>
+    </div>
+    <h3 class="section-title" style="font-size: var(--headline-size);">The CATALYST Loop</h3>
+    <p class="prose">A catalyst speeds up a reaction without being consumed by it. AI accelerates your thinking and drafting, while <em>you</em> choose the problem, supply the context, verify the result, and turn what worked into a permanent system.</p>
+
+    <div class="catalyst-rail" id="catalyst-rail" role="tablist" aria-label="CATALYST stages"></div>
+
+    <div class="grid-asymmetric" style="margin-bottom: var(--space-xl);">
+      <div class="figure-card" id="catalyst-detail-panel"></div>
+
+      <!-- Demo D2 Before/After -->
+      <div class="figure-card">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Demo D2</span>
+            <span class="dossier-meta">The Power of Stage T (Tell It Context)</span>
+          </div>
+        </div>
+        <h3 class="subhead">Weak Prompt vs. Context-Rich Prompt</h3>
+        <p class="muted">See how supplying Mrs Amina Yusuf's constraints (75–90 min commute, evening power cuts, peak 5–9 AM energy) transforms generic fluff into an actionable week.</p>
+        <div class="btn-row" style="margin: var(--space-sm) 0 var(--space-md);">
+          <button type="button" class="btn-secondary btn-sm btn-active" id="d2-weak-btn" onclick="setD2Mode('weak')">Weak Prompt ("Plan my week")</button>
+          <button type="button" class="btn-secondary btn-sm" id="d2-strong-btn" onclick="setD2Mode('strong')">CATALYST Context Prompt</button>
+        </div>
+        <div id="d2-preview" class="output-box"></div>
+      </div>
+    </div>
+
+    <!-- Exercise E3: CATALYST Card Builder -->
+    <div class="figure-card">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">Exercise E3</span>
+          <span class="dossier-meta">Your CATALYST Card · Apply to One Real, Non-Sensitive Problem</span>
+        </div>
+        <button type="button" class="btn-secondary btn-sm" onclick="copyCatalystCard()">Copy CATALYST Brief</button>
+      </div>
+      <div class="form-grid">
+        <div class="form-field">
+          <label class="field-label" for="cat-c">C · Clarify the Real Problem (2 sentences max)</label>
+          <input type="text" id="cat-c" placeholder="What is going wrong, for whom, and what does fixed look like?" oninput="saveCatalystCard()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="cat-a1">A · Assess AI Role &amp; Data Class (G/A/R)</label>
+          <input type="text" id="cat-a1" placeholder="Green/Amber? What AI drafts vs. what I decide" oninput="saveCatalystCard()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="cat-t1">T · Tell It Context (Role, Situation, Constraints)</label>
+          <input type="text" id="cat-t1" placeholder="Who I am, materials, standards, what to avoid" oninput="saveCatalystCard()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="cat-a2">A · Ask With Precision (Task, Format, Tone, Check)</label>
+          <input type="text" id="cat-a2" placeholder="Structure + instruction to flag assumptions" oninput="saveCatalystCard()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="cat-l">L · Loop With It (Refinement Question)</label>
+          <input type="text" id="cat-l" placeholder="What would a critical Director or reviewer ask?" oninput="saveCatalystCard()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="cat-y">Y · Your Judgement (Verification Step)</label>
+          <input type="text" id="cat-y" placeholder="Figures, dates, tone, and facts I will verify myself" oninput="saveCatalystCard()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="cat-s">S · Systemise (Prompt → Template → Assistant)</label>
+          <input type="text" id="cat-s" placeholder="Where will I save this so I never start from zero?" oninput="saveCatalystCard()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="cat-t2">T · Track the Gain (Minutes / Quality Baseline)</label>
+          <input type="text" id="cat-t2" placeholder="Minutes before vs. with AI; errors caught" oninput="saveCatalystCard()">
+        </div>
+      </div>
+      <div id="cat-copy-status" class="inline-status" style="margin-top: var(--space-sm);"></div>
+    </div>
+  </section>
+
+  <!-- SECTION 02 (PILLAR 1): PERSONAL CHIEF OF STAFF -->
+  <section class="module-section" id="sec-pillar1">
+    <div class="dossier-bar">
+      <div class="dossier-bar-left">
+        <span class="dossier-pill">Pillar 1 · Self</span>
+        <span class="dossier-meta">Workbook T1, T2 &amp; T3 · 70 Min Block</span>
+      </div>
+      <span class="index-num">SECTION 02</span>
+    </div>
+    <h2 class="section-title">Your Personal Chief of Staff: Audit, Context Card &amp; Weekly Rhythm</h2>
+    <p class="standfirst">Audit before you optimise. Most busy managers try to fix a schedule they have never measured—and re-explain their life story at the start of every chat.</p>
+
+    <!-- T1: Personal Productivity Audit -->
+    <div class="figure-card" style="margin-bottom: var(--space-xl);">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">Workbook T1</span>
+          <span class="dossier-meta">Personal Productivity Audit · 168-Hour Snapshot</span>
+        </div>
+        <button type="button" class="btn-secondary btn-sm" onclick="loadAminaAudit()">Load Worked Example (Mrs Amina Yusuf)</button>
+      </div>
+      <p class="muted">Adjust your honest weekly hours below to see where your 168 hours go, then name your top time leaks, attention leaks, and non-negotiables.</p>
+
+      <div class="grid-3col" style="margin-top: var(--space-md);">
+        <div class="form-field">
+          <label class="field-label" for="t1-work">Paid Work (hrs/wk)</label>
+          <input type="number" id="t1-work" min="0" max="100" value="40" oninput="updateAuditHours()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t1-commute">Commute (hrs/wk)</label>
+          <input type="number" id="t1-commute" min="0" max="40" value="14" oninput="updateAuditHours()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t1-family">Family &amp; Home (hrs/wk)</label>
+          <input type="number" id="t1-family" min="0" max="60" value="28" oninput="updateAuditHours()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t1-study">Study / Community (hrs/wk)</label>
+          <input type="number" id="t1-study" min="0" max="40" value="8" oninput="updateAuditHours()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t1-rest">Sleep &amp; Rest (hrs/wk)</label>
+          <input type="number" id="t1-rest" min="0" max="80" value="49" oninput="updateAuditHours()">
+        </div>
+        <div class="figure-card-tight" style="display: flex; flex-direction: column; justify-content: center;">
+          <span class="field-label">Unaccounted Hours</span>
+          <div class="subhead tabular" id="t1-unaccounted">29 hrs / 168 hrs</div>
+          <span class="field-hint" id="t1-hours-note">Unstructured or reactive time</span>
+        </div>
+      </div>
+
+      <div class="stacked-bar" aria-label="Weekly hours distribution">
+        <div class="bar-seg seg-work" id="seg-work" style="width: 24%;"></div>
+        <div class="bar-seg seg-commute" id="seg-commute" style="width: 8%;"></div>
+        <div class="bar-seg seg-family" id="seg-family" style="width: 17%;"></div>
+        <div class="bar-seg seg-study" id="seg-study" style="width: 5%;"></div>
+        <div class="bar-seg seg-rest" id="seg-rest" style="width: 29%;"></div>
+      </div>
+
+      <div class="form-grid" style="margin-top: var(--space-md);">
+        <div class="form-field">
+          <label class="field-label" for="t1-leaks">Top Time &amp; Attention Leaks</label>
+          <textarea id="t1-leaks" placeholder="e.g. Checking WhatsApp 6x/hr (~70 min/day); meetings without agendas; late-night drafting" oninput="savePillar1()"></textarea>
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t1-fixes">Non-Negotiables &amp; Stop / Batch / Delegate Fixes</label>
+          <textarea id="t1-fixes" placeholder="e.g. Friday family dinner; two 20-min message windows; protected 7:30–9:00 deep-work block" oninput="savePillar1()"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- T2: Personal Context Card Generator + T3: Weekly Plan -->
+    <div class="grid-asymmetric">
+      <!-- Personal Context Card Generator -->
+      <div class="figure-card">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Studio T2</span>
+            <span class="dossier-meta">Personal Context Card Generator · Target &lt; 350 Words</span>
+          </div>
+          <span class="tag tag-green tabular" id="pcc-word-count">0 / 350 words</span>
+        </div>
+        <h3 class="subhead">Build Your Reusable Personal Operating System</h3>
+        <p class="muted">Enter your non-sensitive personal briefing once. Paste the generated card into a Gemini Gem, ChatGPT Project, Claude Project, or your phone's notes app.</p>
+
+        <div class="btn-row" style="margin-bottom: var(--space-md);">
+          <button type="button" class="btn-secondary btn-sm" onclick="loadAminaContextCard()">Pre-fill Example (Mrs Amina Yusuf)</button>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="field-label" for="pcc-roles">Who I Am &amp; My Roles</label>
+            <input type="text" id="pcc-roles" placeholder="e.g. Assistant Director, parent of three, part-time student" oninput="renderContextCard()">
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="pcc-goals">12-Month Goals</label>
+            <input type="text" id="pcc-goals" placeholder="e.g. Pass professional exam, deliver annual plan early, exercise 3x/wk" oninput="renderContextCard()">
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="pcc-priorities">This Quarter's Top 3 Priorities</label>
+            <input type="text" id="pcc-priorities" placeholder="e.g. Q3 report process; certificate modules 1–4; zero weekend work" oninput="renderContextCard()">
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="pcc-constraints">Real-World Constraints</label>
+            <input type="text" id="pcc-constraints" placeholder="e.g. 90-min commute each way, evening power cuts, phone-first" oninput="renderContextCard()">
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="pcc-energy">Energy Peak &amp; Non-Negotiables</label>
+            <input type="text" id="pcc-energy" placeholder="e.g. Sharpest 5:30–9:00 AM; lowest after 8 PM; Friday family dinner" oninput="renderContextCard()">
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="pcc-style">How AI Must Respond</label>
+            <input type="text" id="pcc-style" placeholder="e.g. Direct, concise, Nigerian English, ask one question at a time" oninput="renderContextCard()">
+          </div>
+        </div>
+
+        <div style="margin-top: var(--space-md);">
+          <span class="field-label">Live Generated Personal Context Card (Includes Standing Data Rule)</span>
+          <div id="pcc-output" class="prompt-text-box" style="margin-top: var(--space-xs);"></div>
+        </div>
+
+        <div class="btn-row" style="margin-top: var(--space-md);">
+          <button type="button" class="btn-primary btn-sm" onclick="copyContextCard('card')">Copy Context Card (Notes Fallback)</button>
+          <button type="button" class="btn-secondary btn-sm" onclick="copyContextCard('assistant')">Copy Chief of Staff System Instruction</button>
+          <span class="inline-status" id="pcc-copy-status"></span>
+        </div>
+      </div>
+
+      <!-- T3: Weekly Planning -->
+      <div class="figure-card">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Workbook T3</span>
+            <span class="dossier-meta">Sunday Reset &amp; Friday Review</span>
+          </div>
+        </div>
+        <h3 class="subhead">Next Week's Priority Blueprint</h3>
+        <p class="muted">Run Prompt P3 every Sunday (10 minutes) and P4 every Friday (5 minutes). Anchor your week around outcomes, not busyness.</p>
+
+        <div class="form-field" style="margin-top: var(--space-sm);">
+          <label class="field-label" for="t3-outcomes">Three Outcomes That Make Next Week a Success</label>
+          <textarea id="t3-outcomes" placeholder="1. Submit Q3 report draft by Thursday&#10;2. Complete two early-morning study blocks&#10;3. Clear memo backlog before Friday 2 PM" oninput="savePillar1()"></textarea>
+        </div>
+        <div class="form-field" style="margin-top: var(--space-md);">
+          <label class="field-label" for="t3-block">Protected Deep-Work Block &amp; Delegations</label>
+          <textarea id="t3-block" placeholder="Block: Tue &amp; Thu 5:30–6:30 AM study; Wed 10:00–11:30 drafting. Delegate: Eze to follow up Kano &amp; Enugu returns by Tuesday." oninput="savePillar1()"></textarea>
+        </div>
+        <div class="form-grid" style="margin-top: var(--space-md);">
+          <div class="form-field">
+            <label class="field-label" for="t3-buffer">Buffer Time Reserved (%)</label>
+            <input type="number" id="t3-buffer" min="0" max="50" value="20" oninput="savePillar1()">
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="t3-score">Friday Week Score (1–5)</label>
+            <select id="t3-score" onchange="savePillar1()">
+              <option value="0">Pending Friday review</option>
+              <option value="1">1 — Overwhelmed</option>
+              <option value="2">2 — Reactive</option>
+              <option value="3">3 — Steady</option>
+              <option value="4">4 — Focused</option>
+              <option value="5">5 — Designed &amp; Calm</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 03 (PILLAR 2): PROFESSIONAL MULTIPLIER -->
+  <section class="module-section" id="sec-pillar2">
+    <div class="dossier-bar">
+      <div class="dossier-bar-left">
+        <span class="dossier-pill">Pillar 2 · Role</span>
+        <span class="dossier-meta">Exercises E5, E6 &amp; Assistant T5 · 80 Min Block</span>
+      </div>
+      <span class="index-num">SECTION 03</span>
+    </div>
+    <h2 class="section-title">Your Professional Multiplier: Reusable Assistants &amp; Verification</h2>
+    <p class="standfirst">Fluency is not accuracy. Moving from one-off prompts to reusable Instruction-Card assistants saves hours—and the Verification Ladder ensures you remain the accountable author.</p>
+
+    <!-- Exercise E5: Notes to Minutes Ambiguity Inspector -->
+    <div class="figure-card" style="margin-bottom: var(--space-xl);">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">Exercise E5</span>
+          <span class="dossier-meta">Pack A &amp; Pack A2 · Catching Quiet Guesses</span>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn-secondary btn-sm btn-active" id="e5-pack-a" onclick="setE5Pack('A')">Pack A · Planning Meeting</button>
+          <button type="button" class="btn-secondary btn-sm" id="e5-pack-a2" onclick="setE5Pack('A2')">Pack A2 · Procurement Committee</button>
+        </div>
+      </div>
+      <h3 class="subhead">Why One Line ("Use [UNCLEAR]—Never Guess") Changes Everything</h3>
+      <p class="muted">Inspect the raw notes alongside Prompt P7's disciplined output. Click the checkboxes below as you spot each ambiguity the AI refused to invent.</p>
+
+      <div class="grid-2col" style="margin-top: var(--space-md);">
+        <div>
+          <span class="field-label">Raw Fictional Notes</span>
+          <div id="e5-raw-notes" class="output-box" style="margin-top: var(--space-xs);"></div>
+        </div>
+        <div>
+          <span class="field-label">Disciplined P7 Action Output (With [UNCLEAR] Flags)</span>
+          <div id="e5-p7-output" class="prompt-text-box" style="margin-top: var(--space-xs);"></div>
+        </div>
+      </div>
+
+      <div class="aside-box" style="margin-top: var(--space-md);">
+        <span class="field-label">Ambiguity Checklist (Target: Flag at Least 2)</span>
+        <div id="e5-ambiguities" class="btn-row" style="margin-top: var(--space-sm);"></div>
+      </div>
+    </div>
+
+    <!-- Exercise E6: Hallucination Hunt & Verification Log -->
+    <div class="figure-card" style="margin-bottom: var(--space-xl);">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">Exercise E6</span>
+          <span class="dossier-meta">The Hallucination Hunt · Pack C (FAIM/REC/2026/014)</span>
+        </div>
+        <span class="tag tag-amber">Verification Ladder</span>
+      </div>
+      <h3 class="subhead">Watch How AI Behaves With vs. Without a Source Document</h3>
+      <p class="muted">Step through this three-part experiment on our fictional Records Management Circular (which deliberately omits any penalty for late monthly returns), then log your own verification verdict.</p>
+
+      <div class="btn-row" style="margin: var(--space-md) 0;">
+        <button type="button" class="btn-secondary btn-sm btn-active" id="e6-step-1" onclick="setE6Step(1)">Step 1: Grounded Brief (P8)</button>
+        <button type="button" class="btn-secondary btn-sm" id="e6-step-2" onclick="setE6Step(2)">Step 2: Ask Missing Fact (With Source)</button>
+        <button type="button" class="btn-secondary btn-sm" id="e6-step-3" onclick="setE6Step(3)">Step 3: Ask Missing Fact (No Source — Watch Trap)</button>
+      </div>
+      <div id="e6-sim-output" class="output-box"></div>
+
+      <div style="margin-top: var(--space-lg);">
+        <span class="field-label">Interactive Verification Log (Climb the Ladder: Sense → Source → Second → Subject)</span>
+        <div class="table-wrap" style="margin-top: var(--space-xs);">
+          <table>
+            <thead>
+              <tr>
+                <th>Claim / Output Checked</th>
+                <th>What the Source Document Says</th>
+                <th>Ladder Rung</th>
+                <th>My Verdict</th>
+              </tr>
+            </thead>
+            <tbody id="e6-log-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- T5: Professional AI Assistant Setup -->
+    <div class="figure-card">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">Studio T5 · Exercise E7</span>
+          <span class="dossier-meta">Build Your Professional AI Assistant</span>
+        </div>
+        <button type="button" class="btn-primary btn-sm" onclick="copyAssistantSpec()">Copy Instruction Card</button>
+      </div>
+      <h3 class="subhead">Six-Part Instruction Card &amp; Guardrail Stress Test</h3>
+      <p class="muted">Select a starter role or tailor the six fields for a responsibility you repeat monthly or more. Then test it on both a typical input and a tricky, incomplete input.</p>
+
+      <div class="btn-row" id="t5-role-presets" style="margin: var(--space-sm) 0 var(--space-md);"></div>
+
+      <div class="grid-asymmetric">
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="field-label" for="t5-role">1. Role</label>
+            <input type="text" id="t5-role" oninput="saveT5()">
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="t5-context">2. Context (Green Only)</label>
+            <input type="text" id="t5-context" oninput="saveT5()">
+          </div>
+          <div class="form-field full">
+            <label class="field-label" for="t5-standards">3. Standards (What Good Looks Like)</label>
+            <textarea id="t5-standards" oninput="saveT5()"></textarea>
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="t5-format">4. Output Format</label>
+            <input type="text" id="t5-format" oninput="saveT5()">
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="t5-check">6. Mandatory Check Line</label>
+            <input type="text" id="t5-check" oninput="saveT5()">
+          </div>
+          <div class="form-field full">
+            <label class="field-label" for="t5-guardrails">5. Guardrails (What It Must Never Do)</label>
+            <textarea id="t5-guardrails" oninput="saveT5()"></textarea>
+          </div>
+        </div>
+
+        <div class="aside-box">
+          <span class="field-label">Test Your Assistant's Guardrails</span>
+          <p class="muted" style="margin: var(--space-xs) 0 var(--space-sm);">A strong assistant excels on normal work—and refuses to invent facts when given vague instructions.</p>
+          <div class="btn-row" style="margin-bottom: var(--space-sm);">
+            <button type="button" class="btn-secondary btn-sm btn-active" id="t5-test-typical" onclick="runT5Test('typical')">Typical Input</button>
+            <button type="button" class="btn-secondary btn-sm" id="t5-test-tricky" onclick="runT5Test('tricky')">Tricky Vague Input</button>
+          </div>
+          <div id="t5-test-output" class="output-box"></div>
+          <div id="t5-copy-status" class="inline-status" style="margin-top: var(--space-sm);"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 04 (PILLAR 3): ORGANISATIONAL INTELLIGENCE -->
+  <section class="module-section" id="sec-pillar3">
+    <div class="dossier-bar">
+      <div class="dossier-bar-left">
+        <span class="dossier-pill">Pillar 3 · Team &amp; Department</span>
+        <span class="dossier-meta">Grounded Notebooks, Performance Intelligence &amp; Workflow Redesign · 80 Min</span>
+      </div>
+      <span class="index-num">SECTION 04</span>
+    </div>
+    <h2 class="section-title">Organisational Intelligence: Knowledge Grounding, KPIs &amp; Process Redesign</h2>
+    <p class="standfirst">Managers spend enormous energy moving information between people. Systems can carry the chasing; managers carry the judgement—within clear institutional governance.</p>
+
+    <!-- Three Access Tiers -->
+    <div class="grid-3col" style="margin-bottom: var(--space-xl);">
+      <div class="figure-card-tight">
+        <span class="tag tag-green">Tier 1 · Individual, Free, Today</span>
+        <h3 class="subhead" style="margin-top: var(--space-xs);">Personal Accounts (Green Data)</h3>
+        <p class="muted" style="margin: 0;">ChatGPT, Claude, Gemini free plans, NotebookLM / Gemini Notebook, Gamma &amp; Canva free. Build and practise here with fictional or public data.</p>
+      </div>
+      <div class="figure-card-tight">
+        <span class="tag tag-amber">Tier 2 · Individual, Paid (Optional)</span>
+        <h3 class="subhead" style="margin-top: var(--space-xs);">Higher Limits, Same Safety Rules</h3>
+        <p class="muted" style="margin: 0;">Never required for this programme. Custom GPT sharing or higher daily caps remain personal accounts—still no Red institutional records.</p>
+      </div>
+      <div class="figure-card-tight">
+        <span class="tag tag-slate">Tier 3 · Institutional &amp; Approved</span>
+        <h3 class="subhead" style="margin-top: var(--space-xs);">Management, IT &amp; DPO Sign-Off</h3>
+        <p class="muted" style="margin: 0;">Microsoft 365 Copilot, Power Automate / AppSheet on agency data, or approved platforms like Service-Wise GPT. Propose here; never deploy solo.</p>
+      </div>
+    </div>
+
+    <!-- Exercise E8: Grounded Notebook Simulator -->
+    <div class="figure-card" style="margin-bottom: var(--space-2xl);">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">Lab E8</span>
+          <span class="dossier-meta">Ask Your Documents · NotebookLM / Gemini Notebook Simulator</span>
+        </div>
+        <span class="tag tag-green">Packs C, D &amp; E Loaded</span>
+      </div>
+      <h3 class="subhead">Grounded Policy Q&amp;A: Click Any Question, Then Verify the Citation</h3>
+      <p class="muted">Unlike general chat, a grounded notebook answers <em>only</em> from the uploaded document pack and links every rule to its source clause. Click a question on the left to inspect the cited answer and highlight the exact source passage on the right.</p>
+
+      <div class="grid-2col" style="margin-top: var(--space-md);">
+        <div>
+          <span class="field-label">Test Questions (Including Traps)</span>
+          <div id="e8-questions" style="display: flex; flex-direction: column; gap: var(--space-xs); margin-top: var(--space-xs);"></div>
+          <div id="e8-answer-box" class="prompt-text-box" style="margin-top: var(--space-md);"></div>
+        </div>
+        <div>
+          <div class="btn-row" style="margin-bottom: var(--space-xs);">
+            <button type="button" class="btn-secondary btn-sm btn-active" id="e8-doc-C" onclick="selectE8Doc('C')">Pack C · Records</button>
+            <button type="button" class="btn-secondary btn-sm" id="e8-doc-D" onclick="selectE8Doc('D')">Pack D · Leave</button>
+            <button type="button" class="btn-secondary btn-sm" id="e8-doc-E" onclick="selectE8Doc('E')">Pack E · Procurement</button>
+          </div>
+          <div id="e8-doc-viewer" class="doc-pane"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo D7: Q3 Performance Data Explorer (Pack F) -->
+    <div class="figure-card" style="margin-bottom: var(--space-2xl);">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">Lab D7 · Pack F</span>
+          <span class="dossier-meta">Performance Intelligence · Q3 Six-Zone Data</span>
+        </div>
+        <button type="button" class="btn-secondary btn-sm" onclick="toggleD7Brief()" id="d7-brief-btn">Show Management Brief &amp; 3 DG Questions</button>
+      </div>
+      <h3 class="subhead">From Raw Zonal Table to Executive Decision Brief</h3>
+      <p class="muted">Target turnaround is 5.0 days or fewer. Inspect how AI computes rates, exposes Kano as the overall outlier and Lagos as high-spend/low-completion, and flags what the Director General will ask next.</p>
+
+      <div class="grid-3col" style="margin: var(--space-md) 0;">
+        <div class="figure-card-tight">
+          <span class="field-label">Overall Completion</span>
+          <div class="subhead tabular" style="font-size: 1.65rem; color: var(--secondary);">76.9%</div>
+          <span class="field-hint">100 completed of 130 planned</span>
+        </div>
+        <div class="figure-card-tight">
+          <span class="field-label">Budget Utilisation</span>
+          <div class="subhead tabular" style="font-size: 1.65rem; color: var(--secondary);">88.5%</div>
+          <span class="field-hint">₦841m utilised of ₦950m released</span>
+        </div>
+        <div class="figure-card-tight">
+          <span class="field-label">Zones Meeting ≤ 5d Target</span>
+          <div class="subhead tabular" style="font-size: 1.65rem; color: var(--error);">3 of 6</div>
+          <span class="field-hint">Abuja, Ibadan, Port Harcourt (5.0d)</span>
+        </div>
+      </div>
+
+      <div class="grid-asymmetric">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Zone</th>
+                <th class="num-col">Planned</th>
+                <th class="num-col">Done (%)</th>
+                <th class="num-col">Utilised (%)</th>
+                <th class="num-col">Turnaround</th>
+                <th class="num-col">Q2 %</th>
+              </tr>
+            </thead>
+            <tbody id="pack-f-table"></tbody>
+          </table>
+        </div>
+        <div class="figure-card-tight">
+          <span class="field-label">Completion % vs. Budget Utilisation % by Zone</span>
+          <div class="chart-box" style="min-height: 320px; margin-top: var(--space-sm);">
+            <canvas id="pack-f-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div id="d7-brief-panel" class="aside-box" style="display: none; margin-top: var(--space-md);">
+        <span class="field-label">AI-Drafted &amp; Human-Verified Brief (Prompt P14)</span>
+        <p style="margin: var(--space-xs) 0;"><strong>Key Findings:</strong> (1) <strong>Kano</strong> is the outlier on every measure—50.0% completion (down from 55%), 50.8% budget utilisation, and 11.5-day turnaround. (2) <strong>Lagos</strong> spends 99.2% of released funds (₦238m of ₦240m) yet completes only 73.3% (down from 80%), yielding the highest cost per completed project (~₦10.8m vs. ₦6.8m–₦8.1m elsewhere). (3) <strong>Port Harcourt</strong> improved most (+8.4 pts to 86.4%) and hit the 5.0-day target.</p>
+        <p style="margin: var(--space-xs) 0 0;"><strong>Three Questions for the Director General:</strong> (a) What is blocking Kano—procurement, capacity, or field access? (b) Why is Lagos's spend per completed project ~40% above other zones? (c) What practice did Port Harcourt change that can be scaled?</p>
+      </div>
+    </div>
+
+    <!-- T6 & T7: Departmental Opportunity & Workflow Redesign -->
+    <div class="figure-card">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">Workbooks T6 &amp; T7 · Exercise E9</span>
+          <span class="dossier-meta">Departmental Opportunity Scorer &amp; Workflow Redesign</span>
+        </div>
+        <button type="button" class="btn-secondary btn-sm" onclick="copyWorkflowDesign()">Copy Pitch &amp; Workflow Spec</button>
+      </div>
+      <h3 class="subhead">Redesign the Process on Paper Before Touching Any Tool</h3>
+      <p class="muted">Select a recurring departmental process, score its Impact × Feasibility (T6), and design the redesigned workflow with explicit Human Checkpoints and Approval Paths (T7).</p>
+
+      <div class="form-grid" style="margin-top: var(--space-md);">
+        <div class="form-field">
+          <label class="field-label" for="t7-process">Choose Process (E9 Menu) or Custom</label>
+          <select id="t7-process" onchange="applyProcessPreset()">
+            <option value="Incoming correspondence and memo routing">Incoming correspondence and memo routing</option>
+            <option value="Monthly zonal report consolidation">Monthly zonal report consolidation</option>
+            <option value="Leave application and tracking">Leave application and tracking</option>
+            <option value="Training-needs tracking">Training-needs tracking</option>
+            <option value="Stores requisition and approvals">Stores requisition and approvals</option>
+            <option value="Scheduling and minuting recurring meetings">Scheduling and minuting recurring meetings</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t7-dataclass">Sensitivity &amp; Approval Path</label>
+          <input type="text" id="t7-dataclass" value="Amber · Head of Registry, ICT Unit &amp; Data Protection Officer" oninput="updatePitch()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t6-impact">Impact (1–5)</label>
+          <input type="number" id="t6-impact" min="1" max="5" value="5" oninput="updatePitch()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t6-feas">Feasibility (1–5) · Opportunity Score: <span id="t6-score-val">20</span>/25</label>
+          <input type="number" id="t6-feas" min="1" max="5" value="4" oninput="updatePitch()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t7-before">Before (Painful Current State)</label>
+          <input type="text" id="t7-before" value="Manual registry logging and 5-day average chasing across desks" oninput="updatePitch()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t7-after">After (AI / Rule Redesign)</label>
+          <input type="text" id="t7-after" value="Standard intake summary (AI) + automated 3-day reminder (Rule)" oninput="updatePitch()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t7-checkpoint">Human Checkpoint (Mandatory Sign-Off)</label>
+          <input type="text" id="t7-checkpoint" value="Registry officer confirms recipients and file classification before routing" oninput="updatePitch()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t7-measure">Success Measure</label>
+          <input type="text" id="t7-measure" value="Average days from receipt to first action (2-week pilot)" oninput="updatePitch()">
+        </div>
+      </div>
+
+      <div class="aside-box" style="margin-top: var(--space-md);">
+        <span class="field-label">Your One-Sentence Group Pitch (T7)</span>
+        <p id="t7-pitch-preview" style="font-weight: 600; margin: var(--space-xs) 0 0;"></p>
+        <div id="t7-copy-status" class="inline-status" style="margin-top: var(--space-xs);"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 05 (PILLAR 4): FUTURE-READINESS PARTNER -->
+  <section class="module-section" id="sec-pillar4">
+    <div class="dossier-bar">
+      <div class="dossier-bar-left">
+        <span class="dossier-pill">Pillar 4 · Future</span>
+        <span class="dossier-meta">Workbooks T8 &amp; T9 · Beyond the Job Title · 50 Min</span>
+      </div>
+      <span class="index-num">SECTION 05</span>
+    </div>
+    <h2 class="section-title">Beyond the Job Title: Transferable Assets &amp; Initial Future-Readiness Plan</h2>
+    <p class="standfirst">Employment is one chapter of your knowledge and value. Here we reopen your sealed Title Card, uncover skills you stopped noticing, and design what comes next—at any career stage.</p>
+
+    <!-- Reopen Title Card + Disclaimer -->
+    <div class="grid-asymmetric" style="margin-bottom: var(--space-xl);">
+      <div class="figure-card">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Title Card Revisited</span>
+            <span class="dossier-meta">Exercise E1 Unsealed</span>
+          </div>
+          <button type="button" class="btn-secondary btn-sm" onclick="revealTitleCard()">Reveal My Title Card</button>
+        </div>
+        <div id="p4-title-reveal" class="output-box">Click "Reveal My Title Card" to read what you wrote in the Opening—and ask yourself what skills and assets you would add to it now.</div>
+      </div>
+
+      <div class="teacher-note" style="margin: 0;">
+        <span class="teacher-note-label">Professional Advice Boundary</span>
+        AI is a mirror, scribe, and tutor—<strong>never a financial, tax, legal, or pension adviser</strong>. Always confirm your Retirement Savings Account records, exit benefits, Minimum Pension Guarantee rules, and accrued rights directly with <strong>PenCom</strong>, your agency's pension desk, and qualified advisers—and verify HR/ethics rules before any outside engagement while in service.
+      </div>
+    </div>
+
+    <!-- Workbook T8: Transferable Skills Inventory + Lesson Card -->
+    <div class="figure-card" style="margin-bottom: var(--space-xl);">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">Workbook T8 · Exercise E10</span>
+          <span class="dossier-meta">Transferable Skills &amp; Knowledge Inventory</span>
+        </div>
+        <button type="button" class="btn-secondary btn-sm" onclick="loadNwosuCase()">Load Example (Mr Emeka Nwosu · Pack G)</button>
+      </div>
+      <p class="muted">Catalogue skills you have proved in practice—without exaggerating—and preserve one hard-won rule of thumb from your career before it walks out the door.</p>
+
+      <div class="table-wrap" style="margin: var(--space-md) 0;">
+        <table>
+          <thead>
+            <tr>
+              <th>Skill or Knowledge</th>
+              <th>Concrete Evidence &amp; Result</th>
+              <th class="num-col">Level (1–4)</th>
+              <th>Who Needs It Outside</th>
+              <th>Possible Next-Chapter Use</th>
+            </tr>
+          </thead>
+          <tbody id="t8-skills-body"></tbody>
+        </table>
+      </div>
+
+      <div class="form-grid" style="margin-top: var(--space-md);">
+        <div class="form-field">
+          <label class="field-label" for="t8-new-skill">Skill / Knowledge</label>
+          <input type="text" id="t8-new-skill" placeholder="e.g. Procedure manual writing">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t8-new-evidence">Evidence &amp; Result</label>
+          <input type="text" id="t8-new-evidence" placeholder="e.g. Wrote manual used by 200 storekeepers">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t8-new-who">Who Needs It &amp; Level (1–4)</label>
+          <input type="text" id="t8-new-who" placeholder="e.g. Level 4 · Cooperatives, SMEs, new officers">
+        </div>
+        <div class="form-field" style="justify-content: flex-end;">
+          <button type="button" class="btn-primary btn-sm" onclick="addSkillRow()">Add Skill to Inventory</button>
+        </div>
+      </div>
+
+      <div class="aside-box" style="margin-top: var(--space-lg);">
+        <span class="field-label">Knowledge Archive Lesson Card (Prompt P21)</span>
+        <div class="form-grid" style="margin-top: var(--space-sm);">
+          <div class="form-field">
+            <label class="field-label" for="t8-lesson-sit">Situation &amp; What Went Wrong</label>
+            <input type="text" id="t8-lesson-sit" placeholder="e.g. We tagged zonal assets before conducting a physical count" oninput="savePillar4()">
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="t8-lesson-rule">Rule of Thumb I Use Now</label>
+            <input type="text" id="t8-lesson-rule" placeholder="e.g. Count, reconcile, then tag—never invert the sequence" oninput="savePillar4()">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workbook T9: Future-Readiness Plan v0.1 -->
+    <div class="figure-card">
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">Workbook T9</span>
+          <span class="dossier-meta">Future-Readiness Plan v0.1 · Purpose, Paths &amp; Readiness</span>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-field full">
+          <label class="field-label" for="t9-purpose">Purpose Statement Beyond My Title</label>
+          <input type="text" id="t9-purpose" placeholder="e.g. Turning 20+ years of public-sector operations experience into practical training and community stewardship" oninput="savePillar4()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t9-paths">Three Possible Paths &amp; 30-Day Small Experiment</label>
+          <textarea id="t9-paths" placeholder="1. Mentoring / Teaching: record two short how-to sessions&#10;2. Practical Handbook: outline 6 chapters&#10;3. Cooperative Advisory (after checking HR ethics rules)" oninput="savePillar4()"></textarea>
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="t9-learning">Capability Gap &amp; 90-Day Learning Step</label>
+          <textarea id="t9-learning" placeholder="Gap: digital facilitation skills. 90-day step: study 3 hrs/week with Prompt P19 and shadow one facilitator." oninput="savePillar4()"></textarea>
+        </div>
+      </div>
+
+      <div style="margin-top: var(--space-md);">
+        <span class="field-label">Practical Readiness Checklist (Not AI Advice — Verify With Authorities)</span>
+        <div id="t9-checklist" class="card-grid" style="margin-top: var(--space-sm);"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 06: 24-PROMPT PACK & 90-DAY PLEDGE -->
+  <section class="module-section" id="sec-prompts">
+    <div class="dossier-bar">
+      <div class="dossier-bar-left">
+        <span class="dossier-pill">Section 06 · Prompt Studio</span>
+        <span class="dossier-meta">24 CATALYST Prompts · Customise, Copy &amp; Log</span>
+      </div>
+      <span class="index-num">P1 – P24</span>
+    </div>
+    <h2 class="section-title">The Complete 24-Prompt Library</h2>
+    <p class="standfirst">Every prompt follows the CATALYST anatomy: Role, Context, Task, Format, and a final Verification Check. Filter by pillar, fill placeholders inline, and save your favourites to your T4 library.</p>
+
+    <div class="figure-card-tight" style="margin-bottom: var(--space-lg);">
+      <div class="form-grid" style="align-items: end;">
+        <div class="form-field">
+          <label class="field-label" for="prompt-search">Search Prompts by Keyword or Use Case</label>
+          <input type="search" id="prompt-search" placeholder="Search minutes, KPI, audit, learning, retirement..." oninput="renderPromptLibrary()">
+        </div>
+        <div class="form-field">
+          <label class="field-label" for="prompt-data-filter">Filter by Data Class</label>
+          <select id="prompt-data-filter" onchange="renderPromptLibrary()">
+            <option value="ALL">All Data Classes</option>
+            <option value="Green">Green Only (Personal / Public)</option>
+            <option value="Amber">Amber (Anonymise / Approved)</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row" id="prompt-pillar-tabs" style="margin-top: var(--space-md);">
+        <button type="button" class="btn-secondary btn-sm btn-active" onclick="setPromptPillar('ALL', this)">All (24)</button>
+        <button type="button" class="btn-secondary btn-sm" onclick="setPromptPillar('1', this)">Pillar 1 · Personal (P1–P6)</button>
+        <button type="button" class="btn-secondary btn-sm" onclick="setPromptPillar('2', this)">Pillar 2 · Management (P7–P12)</button>
+        <button type="button" class="btn-secondary btn-sm" onclick="setPromptPillar('3', this)">Pillar 3 · Organisation (P13–P18)</button>
+        <button type="button" class="btn-secondary btn-sm" onclick="setPromptPillar('4', this)">Pillar 4 · Future &amp; Learning (P19–P24)</button>
+      </div>
+    </div>
+
+    <div id="prompt-library-grid" class="grid-2col" style="margin-bottom: var(--space-2xl);"></div>
+
+    <!-- CLOSING: 90-DAY PLEDGE (T10) & AI GAIN LOG -->
+    <div class="dossier-bar">
+      <div class="dossier-bar-left">
+        <span class="dossier-pill">Closing · T10 &amp; Gain Log</span>
+        <span class="dossier-meta">Convert Insight Into 90-Day Behaviour</span>
+      </div>
+      <span class="index-num">FINAL COMMITMENT</span>
+    </div>
+    <h2 class="section-title">Your 90-Day Pledge &amp; AI Gain Log</h2>
+    <p class="standfirst">Habits beat heroics: three actions this week, not thirty. Track every minute saved and error caught for four weeks—an accountability partner doubles follow-through.</p>
+
+    <div class="grid-asymmetric">
+      <!-- T10 90-Day Plan -->
+      <div class="figure-card">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Workbook T10</span>
+            <span class="dossier-meta">90-Day AI Productivity Action Plan</span>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-field full">
+            <label class="field-label" for="t10-week1">First Three Actions (This Week / Monday Morning)</label>
+            <textarea id="t10-week1" placeholder="1. Save my Personal Context Card and switch off model training&#10;2. Run Sunday Reset (P3) for next week&#10;3. Test my Meeting Preparation Assistant before Monday's meeting" oninput="saveClosing()"></textarea>
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="t10-m1">Month 1–3 Goals</label>
+            <textarea id="t10-m1" placeholder="M1: 3 reusable prompts in weekly use&#10;M2: Grounded team notebook proposal&#10;M3: Present departmental pilot results" oninput="saveClosing()"></textarea>
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="t10-partner">Accountability Partner &amp; Check-In Dates</label>
+            <textarea id="t10-partner" placeholder="Partner: e.g. Mrs Eze&#10;Day 30 / 60 / 90 dates: 24 Dec, 24 Jan, 24 Feb" oninput="saveClosing()"></textarea>
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="exit-use">Exit Card: Usefulness (1–5)</label>
+            <select id="exit-use" onchange="saveClosing()">
+              <option value="0">Rate 1–5</option>
+              <option value="5">5 — Transformative</option>
+              <option value="4">4 — Very Useful</option>
+              <option value="3">3 — Useful</option>
+              <option value="2">2 — Somewhat Useful</option>
+              <option value="1">1 — Needs Work</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="exit-conf">Exit Card: Confidence Using AI Safely (1–5)</label>
+            <select id="exit-conf" onchange="saveClosing()">
+              <option value="0">Rate 1–5</option>
+              <option value="5">5 — High Confidence</option>
+              <option value="4">4 — Confident</option>
+              <option value="3">3 — Growing</option>
+              <option value="2">2 — Cautious</option>
+              <option value="1">1 — Unsure</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Gain Log -->
+      <div class="figure-card">
+        <div class="dossier-bar">
+          <div class="dossier-bar-left">
+            <span class="dossier-pill">Stage T Tracker</span>
+            <span class="dossier-meta">AI Gain Log</span>
+          </div>
+          <span class="tag tag-green tabular" id="gain-total-saved">0 min saved</span>
+        </div>
+        <p class="muted">Log real tasks to prove what actually saves time and improves quality.</p>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="field-label" for="gain-task">Task Name</label>
+            <input type="text" id="gain-task" placeholder="e.g. Minutes from rough notes">
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="gain-before">Minutes Before</label>
+            <input type="number" id="gain-before" min="1" value="60">
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="gain-after">Minutes With AI</label>
+            <input type="number" id="gain-after" min="1" value="15">
+          </div>
+          <div class="form-field">
+            <label class="field-label" for="gain-errors">Errors Caught &amp; Fixed</label>
+            <input type="number" id="gain-errors" min="0" value="2">
+          </div>
+        </div>
+        <div class="btn-row" style="margin: var(--space-sm) 0 var(--space-md);">
+          <button type="button" class="btn-primary btn-sm" onclick="addGainLogEntry()">Log Task Gain</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th class="num-col">Saved</th>
+                <th class="num-col">Errors Caught</th>
+              </tr>
+            </thead>
+            <tbody id="gain-log-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <footer class="aside-box" style="margin-top: var(--space-2xl);">
+      <span class="dossier-meta">Source &amp; Attribution</span>
+      <p class="muted" style="margin: var(--space-xs) 0 0;">Adapted from <em>The AI-Powered Productive Life: Designing AI-Powered Systems for Personal Productivity, Professional Excellence and Future Readiness</em> workshop curriculum for public-sector managers. All case personas (Mrs Amina Yusuf, Mr Bashir Lawal, Mr Emeka Nwosu) and FAIM agency circulars and metrics are fictional training materials.</p>
+    </footer>
+  </section>
+</div>
+
+<api-shim></api-shim>
+<script>
+// =========================================================================
+// 1. MASTERCLASS DATA PACKS (Grounded strictly in source material)
+// =========================================================================
+
+const E2_CARDS = [
+  { id: 1, text: `Notes from a fictional training meeting with invented names.`, answer: `Green`, reason: `Fictional data contains zero real institutional secrets or personal records.` },
+  { id: 2, text: `Your agency's published annual report.`, answer: `Green`, reason: `Already in the public domain; safe to summarise or query in free tools.` },
+  { id: 3, text: `A draft internal memo on staff restructuring.`, answer: `Red`, reason: `Confidential internal restructuring affects staff and pre-decision governance. Never paste into a public tool.` },
+  { id: 4, text: `A spreadsheet of staff names, grade levels and salaries.`, answer: `Red`, reason: `Contains personal and payroll data protected under the Nigeria Data Protection Act 2023.` },
+  { id: 5, text: `Quarterly zone figures with no names or personal details, not yet published.`, answer: `Amber`, reason: `Unpublished internal operational data. Anonymise or aggregate further, or use an approved institutional tool.` },
+  { id: 6, text: `Your own weekly schedule and personal goals.`, answer: `Green`, reason: `Your own non-sensitive personal schedule—just avoid naming third parties or passwords.` },
+  { id: 7, text: `A citizen complaint letter with the citizen's name and phone number.`, answer: `Red`, reason: `Identifiable citizen PII and sensitive case material. Never enter into public AI.` },
+  { id: 8, text: `A circular already published on a government website.`, answer: `Green`, reason: `Publicly released regulatory guidance.` },
+  { id: 9, text: `An approved internal SOP on records handling, not marked confidential.`, answer: `Amber`, reason: `Internal agency document. Check policy before pasting into a public notebook; an approved workspace is safer.` },
+  { id: 10, text: `Meeting notes that mention a disciplinary case.`, answer: `Red`, reason: `Personnel and disciplinary records are strictly confidential.` }
+];
+
+const CATALYST_STAGES = [
+  {
+    letter: `C`, word: `Clarify`, title: `Clarify the Real Problem`,
+    question: `What exactly is going wrong, for whom, and what would "fixed" look like?`,
+    rule: `A problem you cannot describe in two sentences cannot be delegated.`,
+    example: `Mr Bashir Lawal's problem isn't "writing the DG report"—it's six zones sending figures in six incompatible formats.`,
+    tool: `Problem Statement Discipline: write the root cause in 2 sentences before opening any AI window.`
+  },
+  {
+    letter: `A`, word: `Assess`, title: `Assess the AI Role & Data`,
+    question: `What can AI do here, what must stay with me, and is any of this Green, Amber, or Red?`,
+    rule: `AI drafts, analyses, structures, and challenges; the human decides and signs.`,
+    example: `AI can standardise inputs and compute rates on anonymised figures; only the Head of Planning sets priorities and signs off.`,
+    tool: `Traffic-Light Gate: Green passes; Amber must be anonymised or moved to an approved tool; Red stays out.`
+  },
+  {
+    letter: `T`, word: `Tell`, title: `Tell It the Context`,
+    question: `Who am I, what is the situation, what materials exist, what does good look like, and what must you avoid?`,
+    rule: `Context is the difference between a stranger's generic advice and an assistant's help.`,
+    example: `Supplying Mrs Amina Yusuf's 90-minute commute, evening power cuts, and 5–9 AM energy peak.`,
+    tool: `The Context Stack: Role · Situation · Materials · Standards · Constraints.`
+  },
+  {
+    letter: `A`, word: `Ask`, title: `Ask With Precision`,
+    question: `What task, in what format, tone, and length, with what explicit checks?`,
+    rule: `Ask for a structure, not a miracle—and always tell AI to flag what it guessed.`,
+    example: `End every request with: "Use [UNCLEAR] wherever the source does not state an owner or date, and list every assumption."`,
+    tool: `The Instruction Anatomy: Task · Format · Tone · Length · Check.`
+  },
+  {
+    letter: `L`, word: `Loop`, title: `Loop With It`,
+    question: `What is missing, weak, or wrong? What would a critical Director ask?`,
+    rule: `The first output is a draft; the third is usually the keeper.`,
+    example: `"What three tough questions would the Director General ask about this Q3 brief? Answer them from the data or state what is missing."`,
+    tool: `Iterative Critique: Push back on unrealistic schedules, weak arguments, or missing evidence.`
+  },
+  {
+    letter: `Y`, word: `Your Check`, title: `Your Judgement & Verification`,
+    question: `Have I checked facts, figures, names, dates, tone, and risk before signing?`,
+    rule: `Nothing leaves your desk unverified.`,
+    example: `Recalculating the 76.9% completion total in a spreadsheet and verifying circular clauses by clicking citations.`,
+    tool: `The Verification Ladder: Sense-check → Source-check → Second-check → Subject-check.`
+  },
+  {
+    letter: `S`, word: `Systemise`, title: `Systemise What Worked`,
+    question: `If this worked twice, how do I make sure I never start from zero again?`,
+    rule: `Move up the ladder: Saved Prompt → Template → Persistent Assistant → Approved Workflow.`,
+    example: `Saving the "Sunday Reset" prompt inside your Personal Chief of Staff Gem or Project.`,
+    tool: `The Systemise Ladder (top rung requires IT, Records & DPO approval when touching agency systems).`
+  },
+  {
+    letter: `T`, word: `Track`, title: `Track the Gain`,
+    question: `Did this save time, raise quality, or reduce errors—and by how much?`,
+    rule: `If you did not measure against your own baseline, you do not know if the system works.`,
+    example: `Logging 60 minutes before vs. 15 minutes with AI, plus 2 ambiguities caught before circulation.`,
+    tool: `The AI Gain Log: Date · Task · Minutes Before · Minutes With AI · Quality (1–5) · Errors Caught.`
+  }
+];
+
+const E5_DATA = {
+  A: {
+    raw: `Mon dept meeting, Planning. Mrs Bello chaired. Present: Bello, Okafor, Musa, Eze, Adamu (late), Ibrahim.\nQ3 report: Musa says zonal data still incomplete, Kano and Enugu not sent. Okafor says submit by the 15th or board pack delayed. Bello said no extensions.\nTraining budget: Eze says only N2.1m left, must choose between ICT training and records course. Argument. Bello leaning ICT but wants costs.\nAdamu: field monitoring vehicle broken 3 weeks, needs repair approval from Admin.\nIbrahim: staff complaining memos circulate late. Bello wants a proposal on memo tracking by end of month.\nAOB: send-forth for Mr Danjuma on the 28th, Eze to coordinate. Ended 11:40.`,
+    output: `SUMMARY: Planning Dept met under Mrs Bello. Strict deadline upheld for Q3 report despite missing Kano/Enugu data. Options weighed for remaining ₦2.1m training budget; vehicle repair and memo-tracking proposal flagged.\n\nDECISIONS:\n• No extension granted on Q3 report submission.\n\nACTION TABLE:\n• Chase Kano & Enugu Q3 data | Owner: [UNCLEAR - Musa reported gap, no owner assigned] | Due: [UNCLEAR - "the 15th", month unstated]\n• Present ICT vs. Records training costs | Owner: [UNCLEAR] | Due: [UNCLEAR]\n• Seek Admin approval for vehicle repair | Owner: [UNCLEAR - Adamu raised issue] | Due: [UNCLEAR]\n• Draft memo-tracking proposal | Owner: [UNCLEAR - Ibrahim raised, Bello requested] | Due: [UNCLEAR - "end of month"]\n• Coordinate Mr Danjuma send-forth | Owner: Eze | Due: [UNCLEAR - "the 28th", month unstated]`,
+    ambiguities: [
+      `"The 15th" and "the 28th" have no month or year stated`,
+      `No owner explicitly assigned for costing the two training options`,
+      `No author explicitly named for the memo-tracking proposal`,
+      `Adamu raised the vehicle repair, but notes don't confirm he owns chasing Admin`
+    ]
+  },
+  A2: {
+    raw: `Procurement committee. Laptops for the new unit, 12 units. Three quotations: Cormart N8.6m, 8 weeks delivery; Techbridge N9.4m, 2 weeks delivery; third vendor did not attend.\nChair says speed matters. Eze says check the warranty first. Chair to decide after warranty confirmed.\nGenerator service overdue, Musa will "get a quote". Fuel allocation cut? Not agreed. Next meeting after the long weekend.`,
+    output: `SUMMARY: Procurement Committee reviewed laptop quotations (12 units) and deferred final award pending warranty verification. Generator servicing and fuel allocation discussed without final budget resolution.\n\nACTION TABLE:\n• Confirm warranty terms for Cormart (₦8.6m, 8w) & Techbridge (₦9.4m, 2w) | Owner: [UNCLEAR - Eze suggested, Chair deferred] | Due: [UNCLEAR - before next meeting]\n• Obtain quotation for generator service | Owner: Musa | Due: [UNCLEAR]\n• Fuel allocation cut | Status: NOT AGREED / OPEN ISSUE\n• Convene next meeting | Owner: [UNCLEAR] | Due: [UNCLEAR - "after the long weekend", exact date unstated]`,
+    ambiguities: [
+      `No name recorded for who will verify laptop warranties (Eze or Secretariat?)`,
+      `Third vendor named nowhere—reason for non-attendance unrecorded`,
+      `"After the long weekend" gives no specific date or time`,
+      `No target date or budget cap stated for Musa's generator service quote`
+    ]
+  }
+};
+
+const T5_PRESETS = [
+  {
+    name: `Meeting Preparation`,
+    role: `You are my Meeting Preparation Assistant.`,
+    context: `I am a department head in a Nigerian federal agency. I supply purpose, date, duration, attendees by role, and brief background.`,
+    standards: `One-sentence objective; agenda of at most 5 items with time allocations, decision required, and lead; 3 toughest questions with suggested answers; likely disagreements; pre-read list; closing script confirming actions and owners.`,
+    format: `One-page structured brief with headings and concise bullets.`,
+    guardrails: `Never invent attendees, dates, or figures; use only what I provide; never request or store confidential government files or PII.`,
+    check: `End by listing everything you assumed and everything you still need from me.`
+  },
+  {
+    name: `Management Report`,
+    role: `You are my Management Report Drafter for the Planning Unit.`,
+    context: `Month-end reporting to the Director General and Board using anonymised or aggregated zonal figures and last month's structure.`,
+    standards: `100-word Executive Summary; KPI table against targets showing formulas; Achievements; Challenges; Top 3 Risks with mitigations; Decisions Required.`,
+    format: `Formal, concise Nigerian English; clear tables and numbered recommendations.`,
+    guardrails: `Do not invent numbers or smooth over gaps. Flag missing or unreconciled figures as [CHECK].`,
+    check: `List every formula used and every figure you could not reconcile.`
+  },
+  {
+    name: `Policy & Circular Analyst`,
+    role: `You are my Policy and Document Briefing Assistant.`,
+    context: `I am a manager preparing a 5-minute briefing for senior leadership on public or fictional training circulars.`,
+    standards: `150-word summary; 5 points that matter most to our unit; obligations, deadlines, and numbers quoted verbatim with clause numbers; ambiguities and 3 questions for the author.`,
+    format: `Numbered executive memo format.`,
+    guardrails: `Use only the pasted text. If a penalty, threshold, or rule is absent, write "Not stated in the document".`,
+    check: `Include 3 spot-check quotes with exact clause references so I can verify.`
+  }
+];
+
+const E8_DOCS = {
+  C: {
+    title: `Pack C · Records Management Circular (FAIM/REC/2026/014)`,
+    clauses: [
+      { id: `C1`, text: `1. Indexing Standard: All newly opened official files must be indexed within 5 working days of opening.` },
+      { id: `C2`, text: `2. Registry Retention: Closed files remain in the departmental registry for 3 years before transfer to the central records centre.` },
+      { id: `C3`, text: `3. Original Files: Original physical files may not leave the registry; photocopies require the Head of Registry's written approval.` },
+      { id: `C4`, text: `4. Monthly Returns: Monthly records returns are due by the 7th working day of the following month to the Director, Administration.` },
+      { id: `C5`, text: `5. Liaison Officer: Each department shall designate one Records Liaison Officer of at least Grade Level 10 (GL 10).` },
+      { id: `C6`, text: `6. Electronic Storage: Electronic copies must be stored only in the approved shared repository—never on personal email or personal cloud drives.` }
+    ]
+  },
+  D: {
+    title: `Pack D · Leave & Attendance Guidelines (Fictional Training Material)`,
+    clauses: [
+      { id: `D1`, text: `1. Annual Leave Entitlement: Officers on GL 07 and above receive 25 working days; officers below GL 07 receive 20 working days.` },
+      { id: `D2`, text: `2. Application Notice: Leave applications must be submitted at least 14 days before the start date and approved by the Head of Department.` },
+      { id: `D3`, text: `3. Carry-Over & Roster: Up to 10 days may be carried over; the annual leave roster is published by 15 January.` },
+      { id: `D4`, text: `4. Casual Absence: Unplanned absence must be reported by 9:30 AM the same day; a medical certificate is required after 2 consecutive days.` },
+      { id: `D5`, text: `5. Study Leave: Study leave with pay of up to 4 weeks per year may be granted for approved professional examinations.` }
+    ]
+  },
+  E: {
+    title: `Pack E · Procurement Thresholds SOP (Fictional Training Material)`,
+    clauses: [
+      { id: `E1`, text: `1. Direct Purchase: Purchases up to ₦500,000 may be executed via direct purchase by one authorised officer.` },
+      { id: `E2`, text: `2. Three Quotations: Purchases from ₦500,001 to ₦5,000,000 require three competitive quotations, approved by the Head of Department.` },
+      { id: `E3`, text: `3. Procurement Committee: Purchases above ₦5,000,000 must go to the Procurement Committee.` },
+      { id: `E4`, text: `4. Anti-Splitting & Inspection: Splitting a purchase to evade a threshold is strictly prohibited. All goods received must be inspected by two officers.` }
+    ]
+  }
+};
+
+const E8_QUESTIONS = [
+  {
+    q: `How many days of annual leave does a GL 09 officer get, and how far in advance must they apply?`,
+    doc: `D`, clause: `D1`,
+    ans: `A GL 09 officer is GL 07 or above and receives 25 working days of annual leave [Pack D, Clause 1]. The application must be submitted at least 14 days before the start date and approved by the Head of Department [Pack D, Clause 2]. Confirm with HR/Admin before acting.`
+  },
+  {
+    q: `When are monthly records returns due, and to whom?`,
+    doc: `C`, clause: `C4`,
+    ans: `Monthly records returns are due by the 7th working day of the following month, submitted to the Director, Administration [Pack C, Clause 4]. Confirm with Registry before acting.`
+  },
+  {
+    q: `My department wants to buy equipment costing ₦3.2 million. What process applies?`,
+    doc: `E`, clause: `E2`,
+    ans: `At ₦3.2 million (between ₦500,001 and ₦5,000,000), the purchase requires three competitive quotations approved by the Head of Department [Pack E, Clause 2]. Splitting the order is prohibited, and two officers must inspect goods on receipt [Pack E, Clause 4]. Confirm with Procurement Unit before acting.`
+  },
+  {
+    q: `What is the penalty for late submission of monthly records returns?`,
+    doc: `C`, clause: `C4`,
+    ans: `Not stated in the sources. Pack C (Clause 4) specifies the 7th working day deadline, but none of the three documents prescribes a penalty for late submission. Do not guess—check official Public Service Rules or ask Administration.`
+  },
+  {
+    q: `Can I save a copy of a registry file on my personal Google Drive to work from home?`,
+    doc: `C`, clause: `C6`,
+    ans: `No. Electronic copies may be placed only in the approved shared repository—never in personal email or personal cloud storage [Pack C, Clause 6]. Original physical files also may not leave the registry [Pack C, Clause 3].`
+  },
+  {
+    q: `Synthesise a 1-page quick guide for a new manager covering leave, records, and purchasing.`,
+    doc: `D`, clause: `D2`,
+    ans: `NEW MANAGER QUICK GUIDE:\n• Leave: Roster due 15 Jan; GL 07+ gets 25 days (apply 14 days ahead); report absence by 9:30 AM [Pack D, Clauses 1–4].\n• Records: Appoint a GL 10+ Liaison Officer; index files in 5 days; returns due 7th working day; approved shared drive only [Pack C, Clauses 1, 4–6].\n• Purchasing: ≤₦500k direct; ₦500k–₦5m three quotes (HoD); >₦5m Committee; two-officer inspection [Pack E, Clauses 1–4].`
+  }
+];
+
+const PACK_F_DATA = [
+  { zone: `Abuja`, planned: 24, completed: 21, released: 180, utilised: 171, turnaround: 4.2, q2: 84, status: `on` },
+  { zone: `Lagos`, planned: 30, completed: 22, released: 240, utilised: 238, turnaround: 7.9, q2: 80, status: `warn` },
+  { zone: `Kano`, planned: 18, completed: 9, released: 120, utilised: 61, turnaround: 11.5, q2: 55, status: `alert` },
+  { zone: `Enugu`, planned: 20, completed: 15, released: 140, utilised: 118, turnaround: 6.1, q2: 70, status: `warn` },
+  { zone: `Port Harcourt`, planned: 22, completed: 19, released: 160, utilised: 149, turnaround: 5.0, q2: 78, status: `on` },
+  { zone: `Ibadan`, planned: 16, completed: 14, released: 110, utilised: 104, turnaround: 4.8, q2: 85, status: `on` }
+];
+
+const E9_PRESETS = {
+  "Incoming correspondence and memo routing": {
+    impact: 5, feas: 4,
+    dataclass: `Amber · Head of Registry, ICT Unit & Data Protection Officer`,
+    before: `Manual registry logging and 5-day average chasing across desks`,
+    after: `Standard intake summary (AI) + automated 3-day reminder (Rule)`,
+    checkpoint: `Registry officer confirms recipients and file classification before routing`,
+    measure: `Average days from receipt to first action (2-week pilot)`
+  },
+  "Monthly zonal report consolidation": {
+    impact: 5, feas: 5,
+    dataclass: `Amber · Planning Head (template now), ICT for automated intake`,
+    before: `Six zones send six incompatible formats; 2 full days to consolidate`,
+    after: `Standardised input form + AI KPI table & anomaly draft with [CHECK] flags`,
+    checkpoint: `Planning officer reconciles totals in Excel before DG submission`,
+    measure: `Hours to produce report and post-review corrections`
+  },
+  "Leave application and tracking": {
+    impact: 4, feas: 4,
+    dataclass: `Red/Amber (staff records) · HR, ICT & DPO DPIA required`,
+    before: `Paper forms lost between units and manual roster checks`,
+    after: `Rule-based roster balance check + automated 14-day notice validation`,
+    checkpoint: `Head of Department approves cover arrangement before leave starts`,
+    measure: `Turnaround time from application to written decision`
+  },
+  "Training-needs tracking": {
+    impact: 4, feas: 5,
+    dataclass: `Green/Amber · HR Training Desk & Department Heads`,
+    before: `Ad-hoc nomination emails and duplicate course requests`,
+    after: `AI clusters anonymised skill gaps against annual budget options`,
+    checkpoint: `Training Committee confirms priority nominations and cost-value`,
+    measure: `% of training budget matched to documented competency gaps`
+  },
+  "Stores requisition and approvals": {
+    impact: 4, feas: 3,
+    dataclass: `Amber · Head of Stores, Internal Audit & ICT`,
+    before: `Verbal requests, missed reorder thresholds, and slow approvals`,
+    after: `Rule check on threshold & stock balance + AI draft inspection checklist`,
+    checkpoint: `Two officers physically inspect and countersign goods received`,
+    measure: `Stock-out incidents and requisition cycle days`
+  },
+  "Scheduling and minuting recurring meetings": {
+    impact: 5, feas: 5,
+    dataclass: `Amber (anonymise names) · Unit Head only for template`,
+    before: `60+ minutes typing scribbled notes; missed follow-ups`,
+    after: `Meeting Prep Assistant agenda + P7 Action Table with [UNCLEAR] flags`,
+    checkpoint: `Chair verifies owners and dates before email circulation`,
+    measure: `Minutes saved per meeting & % of actions closed on time`
+  }
+};
+
+const T9_CHECKLIST_ITEMS = [
+  { id: `chk1`, label: `Confirm Retirement Savings Account (RSA) records and accrued rights directly with PenCom or your pension desk.` },
+  { id: `chk2`, label: `Verify current federal/state exit-benefit or Minimum Pension Guarantee rules with official circulars.` },
+  { id: `chk3`, label: `Review post-service health insurance cover and keep personal vital documents organised.` },
+  { id: `chk4`, label: `Confirm HR and Ethics rules on conflict of interest and outside engagement while still in service.` }
+];
+
+const PROMPTS = [
+  { id: `P1`, title: `Personal Productivity Audit`, pillar: `1`, data: `Green`, when: `You feel busy but cannot say where the time goes`, prompt: `Act as my personal productivity coach. I am [ROLE] with these responsibilities: [RESPONSIBILITIES]. Interview me one question at a time to audit how my time and attention are spent. Ask about a typical week, fixed commitments, interruptions, energy peaks and slumps, tasks I avoid, and what I wish I had more time for. Ask no more than ten questions. After my last answer produce: (1) a weekly time snapshot with estimated hours per area; (2) my top three time leaks and top three attention leaks, each with a likely cause; (3) my non-negotiables; (4) five specific changes ranked by effort and impact; (5) the questions you could not answer from what I told you. Use my wording and do not invent facts; mark gaps as [MISSING].`, verify: `Confirm the snapshot totals roughly 168 hours and test estimates with a 3-day diary.` },
+  { id: `P2`, title: `Goal Setting & Execution Plan`, pillar: `1`, data: `Green`, when: `A goal exists but there is no realistic plan`, prompt: `Act as a strategic planner. Turn this goal into an execution plan: [GOAL]. Context: [ROLE_AND_CONSTRAINTS], deadline [DEADLINE], free hours a week [HOURS]. First ask up to five clarifying questions. Then produce: a one-sentence outcome statement; three measurable success criteria; milestones for 12 months, each quarter and the next 30 days; the weekly habits that drive the goal; the three biggest risks with a countermeasure each; and what I should stop doing to make room. Keep it realistic for a working manager. Do not invent facts; list your assumptions.`, verify: `Check that weekly habits actually fit your real free hours; cut anything unrealistic.` },
+  { id: `P3`, title: `Sunday Weekly Planner`, pillar: `1`, data: `Green`, when: `Every Sunday for 10 minutes`, prompt: `Use my Personal Context Card. Plan my week of [WEEK_DATES]. Fixed commitments: [COMMITMENTS]. Top priorities this week: [TOP_THREE]. Energy pattern: [ENERGY_PATTERN]. Build a day-by-day plan with one protected deep-work block per day, priority tasks sorted Must, Should, Could, and at least [20]% buffer time. Then list three outcomes that would make this week a success, anything I should delegate or decline, and the single biggest risk. Do not schedule outside [WORKING_HOURS]. Flag every clash and every assumption.`, verify: `Verify travel/commute times are realistic and every fixed commitment is placed.` },
+  { id: `P4`, title: `Friday Review & Reset`, pillar: `1`, data: `Green`, when: `Every Friday for 5 minutes`, prompt: `Run a five-minute weekly review. Ask me one question at a time: what got done, what slipped and why, what drained me, what gave me energy, and what I learned. Then summarise in four lines: wins, slips with root cause, one habit to keep, one habit to change. Turn unfinished items into a draft list for next week, each marked Do, Delegate, Drop or Defer. End by asking what I will do first on Monday.`, verify: `Be honest about root causes vs. excuses, and actively use Drop on low-value tasks.` },
+  { id: `P5`, title: `Decision Support`, pillar: `1`, data: `Green`, when: `A decision is difficult and stakes are real`, prompt: `Act as a clear-thinking adviser, not a decision-maker. I must decide: [DECISION]. Options: [OPTIONS]. What matters to me: [CRITERIA]. Constraints: [CONSTRAINTS]. First ask up to five questions that could change the answer. Then: (1) restate the decision; (2) compare the options against my criteria in a table; (3) argue the strongest case for each option, including the one you would not choose; (4) list what could go wrong with each and the early warning signs; (5) suggest a low-cost way to test the favourite; (6) say what information is still missing. Do not tell me what to choose. Do not invent facts.`, verify: `Consult qualified professionals for pension, legal, medical, or financial decisions.` },
+  { id: `P6`, title: `Personal Context Card Builder`, pillar: `1`, data: `Green`, when: `Setting up your Personal Operating System`, prompt: `Help me build my Personal Context Card, a one-page briefing you will read at the start of every conversation. Interview me one question at a time about: who I am and my roles; my 12-month goals; this quarter's top three priorities; my constraints (time, health, family, resources); my energy pattern; how I like answers (length, tone, level of challenge); and what I never want you to do. Then write the card in under 350 words, in the first person, with headings. End with this line: Standing rule: do not ask for, and warn me if I share, confidential government information, personal data about other people, passwords or account details.`, verify: `Remove anything too private for a public tool; review every quarter.` },
+  { id: `P7`, title: `Notes to Minutes & Action List`, pillar: `2`, data: `Amber`, when: `Immediately after any meeting`, prompt: `You are my meeting secretary. Below are rough notes from [MEETING_NAME], chaired by [CHAIR_ROLE], on [DATE]. Produce: (1) a five-line summary; (2) the decisions taken; (3) an action table with Task, Owner, Due date and Status, using [UNCLEAR] wherever the notes do not say, and never guessing an owner or a date; (4) open issues and risks; (5) a short follow-up email to attendees in formal Nigerian English. At the end list every point where you had to interpret the notes. Notes: [PASTE_ANONYMISED_NOTES].`, verify: `Check every owner, date, and decision against your attendance list before sending.` },
+  { id: `P8`, title: `Document Analysis & Briefing`, pillar: `2`, data: `Green`, when: `A long document must be briefed quickly`, prompt: `Read the document below. I need to brief [AUDIENCE] in [MINUTES] minutes. Produce: (1) a 150-word summary; (2) the five points that matter most to us and why; (3) obligations, deadlines and numbers, quoted exactly with the clause or page; (4) anything ambiguous, missing or contradictory; (5) three questions I should put to the author. Use only the document. If something is not in it, write "not stated". Document: [PASTE_DOCUMENT].`, verify: `Spot-check 3 quoted clauses against the source and test one unstated question.` },
+  { id: `P9`, title: `Meeting Preparation`, pillar: `2`, data: `Amber`, when: `Before chairing or attending a key meeting`, prompt: `Prepare me to chair [MEETING] on [DATE], lasting [DURATION], with [ATTENDEES_BY_ROLE]. Purpose: [PURPOSE]. Background: [SHORT_SUMMARY]. Produce: a clear objective; an agenda of no more than five items with time allocations, the decision needed for each and who leads; the three toughest questions I may face with suggested answers; likely disagreements and how to handle them; what to send participants beforehand; and a closing script that confirms actions and owners. Do not invent attendees, figures or decisions.`, verify: `Ensure agenda minutes add up and adjust for team dynamics you know.` },
+  { id: `P10`, title: `Management Report Drafter`, pillar: `2`, data: `Amber`, when: `Consolidating periodic unit reports`, prompt: `Act as the report drafter for the Head of [UNIT]. Write the [MONTH] progress report for [AUDIENCE] in this structure: Summary (100 words); KPI table against target; Achievements; Challenges; Risks (top three with mitigation); Decisions required. Inputs by unit: [PASTE_AGGREGATED_FIGURES]. Calculate every rate you show and state the formula. Flag any unit with missing or inconsistent data as [CHECK]. Tone: formal, concise, Nigerian English. Do not invent numbers.`, verify: `Recompute 3 headline numbers in a spreadsheet and resolve every [CHECK] flag.` },
+  { id: `P11`, title: `Delegation & Accountability Brief`, pillar: `2`, data: `Green`, when: `Handing over a task clearly`, prompt: `Help me delegate this task: [TASK]. To: [ROLE_AND_EXPERIENCE]. Deadline: [DEADLINE]. Why it matters: [PURPOSE]. Write a delegation brief with the outcome expected, what "done well" looks like, boundaries of authority, resources, check-in points and what to escalate. Then write a one-paragraph message I can send. Finally list three ways this delegation could go wrong and how I would notice early. Keep the tone respectful and clear.`, verify: `Confirm the authority boundaries are genuinely yours to delegate.` },
+  { id: `P12`, title: `Official Communication Improver`, pillar: `2`, data: `Amber`, when: `A memo or letter must be clear and accurate`, prompt: `Rewrite the draft below as a [MEMO_LETTER_OR_EMAIL] from [MY_ROLE] to [RECIPIENT_ROLE]. Purpose: [PURPOSE]. Tone: [TONE]. Keep every fact exactly as drafted. Use short paragraphs, plain words, a clear subject line, and a closing that states what I need and by when. Then give me a version half the length, the two weakest sentences in the original and why, and anything that could be read as a commitment, accusation or promise. Draft: [PASTE_DRAFT].`, verify: `Check no facts changed, confirm file references, and read aloud.` },
+  { id: `P13`, title: `KPI Development`, pillar: `3`, data: `Green`, when: `A unit has activity but weak measures`, prompt: `Act as a performance management adviser. My unit is [UNIT] with this mandate: [MANDATE]. Our outputs are: [OUTPUTS]. Propose eight KPIs. For each give a definition, the formula, the data source, the frequency, a realistic target range, the owner, and one way it could be gamed. Group them as Output, Quality, Timeliness, Cost and Outcome. Recommend the three that matter most and why. Flag any KPI that needs data we may not have. Do not invent baselines; ask me for them.`, verify: `Verify each KPI can actually be measured from existing unit records.` },
+  { id: `P14`, title: `Performance Data to Management Brief`, pillar: `3`, data: `Amber`, when: `A table of results needs executive interpretation`, prompt: `Analyse the table below for [AUDIENCE]. Compute completion rate (completed divided by planned) and budget utilisation (utilised divided by released) for each [UNIT] and in total. Compare with [PREVIOUS_PERIOD]. Identify the strongest and weakest performers, unusual patterns (for example high spending with low completion), and at least three questions the Director General would ask. Draft a one-page management brief: headline, KPI table, three findings, three risks, three recommended actions and data caveats. Show your calculations. Data: [PASTE_TABLE].`, verify: `Recalculate totals in a spreadsheet and verify each recommendation against data.` },
+  { id: `P15`, title: `Workflow Redesign`, pillar: `3`, data: `Amber`, when: `A repetitive administrative process wastes effort`, prompt: `Act as a process-improvement analyst. Process: [PROCESS_NAME]. Today's steps in order: [CURRENT_STEPS_WITH_MINUTES]. Pain points: [PAIN_POINTS]. Redesign this process. Show a before-and-after table. Mark each new step Human, AI-assisted or Rule-based. Add human checkpoints where an error would matter. List the data touched and its sensitivity (Green, Amber, Red), the approvals needed (manager, ICT, Data Protection Officer, records), three success measures, risks with a fallback, and a two-week pilot plan for one team. Do not assume any tool is approved.`, verify: `Walk the design through with frontline staff and obtain approvals before piloting.` },
+  { id: `P16`, title: `Departmental AI Opportunity Scan`, pillar: `3`, data: `Green`, when: `Deciding which departmental process to improve first`, prompt: `My department is [FUNCTION] with [STAFF_COUNT] staff. Recurring processes: [LIST_6_TO_10_PROCESSES]. For each, estimate frequency, effort, pain level and data sensitivity from what I tell you, and ask me when unsure. Score each on impact (1–5) and feasibility (1–5) for AI-assisted improvement, mark the AI role (draft, analyse, route, monitor), the main risk and whether it needs approval. Return the T6 table sorted by score. Recommend the single best pilot and explain why, and name one process that should not use AI and why.`, verify: `Replace rough time guesses with real registry/unit records.` },
+  { id: `P17`, title: `Risk & Options Appraisal`, pillar: `3`, data: `Green`, when: `Advising a senior decision-maker`, prompt: `I must advise [DECISION_MAKER] on [ISSUE]. Background: [FACTS_WITH_SOURCES]. Options: [OPTIONS]. Produce a management brief with the issue in two sentences; the options with costs, benefits, risks and dependencies; a risk register for the preferred option (likelihood, impact, mitigation, owner); the assumptions behind the recommendation; and what would change my mind. Give a recommendation with a confidence level, but make clear this is advice for a human decision. Separate facts I gave you from your assumptions.`, verify: `Test every legal/policy reference against the official text and peer-review.` },
+  { id: `P18`, title: `Grounded Policy Q&A Instruction`, pillar: `3`, data: `Green`, when: `Setting up a knowledge assistant or notebook`, prompt: `You answer questions about [TOPIC] using only the documents provided. For every answer cite the document and clause. If the answer is not in the documents, say "not stated in the sources" and do not guess. If two documents conflict, show both and say so. Keep answers under 150 words unless asked. After any answer that involves a rule, add: Confirm with [OFFICE] before acting. When asked, produce a one-page quick guide for new managers on [TOPICS].`, verify: `Test with 5 questions including 1 unanswerable trap, and click every citation.` },
+  { id: `P19`, title: `Personal Learning Roadmap`, pillar: `4`, data: `Green`, when: `Learning a new capability deliberately`, prompt: `Act as a personal learning designer. I want to learn [SKILL_OR_SUBJECT] in order to [PURPOSE] within [TIME_FRAME], with [HOURS_PER_WEEK] hours a week. My current level: [LEVEL]. How I learn best: [PREFERENCE]. Constraints: [CONSTRAINTS]. First ask me three questions. Then design a roadmap with milestones, weekly activities, free or low-cost resources, a practice project, and a way to test myself each week. Prefer resources that work on low bandwidth. Mark every resource you are not certain exists as [VERIFY].`, verify: `Check that every recommended resource or course actually exists.` },
+  { id: `P20`, title: `Rapid Topic Tutor`, pillar: `4`, data: `Green`, when: `Mastering an unfamiliar subject quickly`, prompt: `Teach me [TOPIC] as if I were an intelligent manager who is new to it. Start with a five-sentence overview, then three key concepts with a Nigerian example each. Ask me two questions to check my understanding before going further. Then give me five quiz questions of rising difficulty and correct my answers with explanations. Finally list the three most common misconceptions and what to read or ask an expert next. Where you are unsure, say so.`, verify: `Cross-check key facts with an authoritative domain source.` },
+  { id: `P21`, title: `Knowledge Documentation Interview`, pillar: `4`, data: `Amber`, when: `Preserving lessons learned over your career`, prompt: `Act as a professional biographer and knowledge manager. I want to preserve what I have learned about [AREA] over [YEARS] years. Interview me one question at a time. Ask for a real case, what I did, what went wrong, what I would do differently, and the rule of thumb I now use. After every three answers write a short lesson card: title, situation, action, result, lesson, and when it applies. Do not include names of private individuals or confidential government details; if I mention any, replace them with a generic description and tell me you did.`, verify: `Confirm no classified or identifiable personal data appears before saving.` },
+  { id: `P22`, title: `Skills Discovery Interview`, pillar: `4`, data: `Green`, when: `Seeing your transferable value beyond a title`, prompt: `Act as a career analyst. I will describe my career. Interview me for ten minutes, one question at a time, about my responsibilities, projects, results, problems I solved, people I trained or led, tools I use, and the things colleagues ask me for help with. Then produce a Skills and Knowledge Inventory table: skill, evidence (what I did and the result), level 1 to 4, who needs it outside my current organisation, and a possible use. Add the five skills I seem to undervalue most. Use my words; do not exaggerate or invent achievements.`, verify: `Verify every achievement is provable and ask a trusted colleague if it fits.` },
+  { id: `P23`, title: `Future Paths & Opportunity Explorer`, pillar: `4`, data: `Green`, when: `Exploring meaningful options beyond your post`, prompt: `Using the skills inventory below, help me explore three possible future paths beyond my current job: [THREE_PATH_AREAS]. For each path give: what the work looks like, who needs it, what I already have, what I must learn, one small experiment I can run in 30 days, and the legal, ethical or conflict-of-interest points I must check first, including rules on outside engagement while in service. Do not promise income. Mark claims about Nigerian regulations or markets as [VERIFY]. Inventory: [PASTE_SKILLS_INVENTORY].`, verify: `Confirm all in-service rules with HR/Ethics Unit before starting any outside path.` },
+  { id: `P24`, title: `Retirement Transition Roadmap`, pillar: `4`, data: `Green`, when: `Designing the non-financial side of your next chapter`, prompt: `Help me plan the non-financial side of my transition from public service in about [YEARS_REMAINING] years. Context: [CONTEXT]. Produce a draft purpose statement; a typical-week design for the first year after service (routine, learning, contribution, rest, relationships); a three-year roadmap with a 12-month and a 90-day action plan; a knowledge-sharing and mentoring plan; wellbeing and community connections; and a list of questions to ask my pension desk, PenCom or a qualified financial adviser about my pension, exit benefits and any other entitlements. Do not give financial, tax or legal advice, and do not estimate amounts. Mark anything that depends on regulations as [VERIFY].`, verify: `Confirm every entitlement with PenCom, your pension desk, and qualified professionals.` }
+];
+
+// =========================================================================
+// 2. STATE MODEL
+// =========================================================================
+
+let appState = {
+  e1Text: ``,
+  e1Sealed: false,
+  e2Choices: {},
+  catalystStep: 0,
+  catCard: { c: ``, a1: ``, t1: ``, a2: ``, l: ``, y: ``, s: ``, t2: `` },
+  t1: { work: 40, commute: 14, family: 28, study: 8, rest: 49, leaks: ``, fixes: `` },
+  pcc: { roles: ``, goals: ``, priorities: ``, constraints: ``, energy: ``, style: `` },
+  t3: { outcomes: ``, block: ``, buffer: 20, score: `0` },
+  e5Pack: `A`,
+  e5Checked: [],
+  e6Step: 1,
+  e6Log: [
+    { claim: `Files must be indexed within 5 working days of opening`, source: `Pack C, Clause 1: "within 5 working days"`, rung: `Source-check`, verdict: `Verified` },
+    { claim: `Late monthly records returns carry a ₦10,000 fine (ungrounded AI)`, source: `Pack C has NO penalty clause`, rung: `Source-check`, verdict: `Rejected (Hallucination)` },
+    { claim: `Monthly returns go to Director, Administration by 7th working day`, source: `Pack C, Clause 4 matches exactly`, rung: `Source-check`, verdict: `Verified` }
+  ],
+  t5: { ...T5_PRESETS[0] },
+  e8QuestionIdx: 0,
+  e8Doc: `C`,
+  e8Tested: [0],
+  t6: { impact: 5, feas: 4 },
+  t7: {
+    process: `Incoming correspondence and memo routing`,
+    dataclass: `Amber · Head of Registry, ICT Unit & Data Protection Officer`,
+    before: `Manual registry logging and 5-day average chasing across desks`,
+    after: `Standard intake summary (AI) + automated 3-day reminder (Rule)`,
+    checkpoint: `Registry officer confirms recipients and file classification before routing`,
+    measure: `Average days from receipt to first action (2-week pilot)`
+  },
+  t8Skills: [
+    { skill: `Stores Procedure Writing`, evidence: `Wrote manual used by ~200 storekeepers across 6 zones`, level: `4`, who: `Cooperatives & SMEs`, use: `Practical handbook / training course` }
+  ],
+  t8Lesson: { sit: ``, rule: `` },
+  t9: { purpose: ``, paths: ``, learning: ``, checks: [] },
+  promptPillar: `ALL`,
+  savedPrompts: [],
+  t10: { week1: ``, m1: ``, partner: ``, exitUse: `0`, exitConf: `0` },
+  gainLog: [
+    { task: `Notes to action list (Pack A test)`, before: 60, after: 12, errors: 3 }
+  ]
+};
+
+let packFChartInstance = null;
+
+// =========================================================================
+// 3. PERSISTENCE & BOOTSTRAP
+// =========================================================================
+
+async function saveState() {
+  const badge = document.getElementById(`save-status-badge`);
+  try {
+    if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+      await window.notebookAppApi.setAppState(appState);
+      if (badge) badge.textContent = `Saved`;
+    }
+  } catch (err) {
+    if (badge) badge.textContent = `Session Active`;
+  }
+  updateMasteryProgress();
+}
+
+async function initApp() {
+  try {
+    if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+      const loaded = await window.notebookAppApi.getAppState();
+      if (loaded && typeof loaded === `object`) {
+        appState = { ...appState, ...loaded };
+      }
+    }
+  } catch (err) {
+    // Fallback gracefully to initial state
+  }
+
+  hydrateAllInputs();
+  setD1View(`raw`);
+  renderE2Cards();
+  renderCatalystRail();
+  setCatalystStep(appState.catalystStep || 0);
+  setD2Mode(`weak`);
+  updateAuditHours(true);
+  renderContextCard(true);
+  setE5Pack(appState.e5Pack || `A`);
+  setE6Step(appState.e6Step || 1);
+  renderE6Log();
+  renderT5Presets();
+  renderE8Questions();
+  selectE8Doc(appState.e8Doc || `C`);
+  selectE8Question(appState.e8QuestionIdx || 0);
+  renderPackFTable();
+  renderPackFChart();
+  updatePitch(true);
+  renderT8Skills();
+  renderT9Checklist();
+  renderPromptLibrary();
+  renderGainLog();
+  updateMasteryProgress();
+
+  if (window.lucide && typeof window.lucide.createIcons === `function`) {
+    window.lucide.createIcons();
+  }
+  if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+    window.notebookAppApi.notifyAppReady();
+  }
+}
+
+document.addEventListener(`DOMContentLoaded`, initApp);
+
+function hydrateAllInputs() {
+  const setVal = (id, v) => {
+    const el = document.getElementById(id);
+    if (el && v !== undefined && v !== null) el.value = v;
+  };
+  setVal(`e1-title-card`, appState.e1Text);
+  if (appState.e1Sealed) {
+    const env = document.getElementById(`e1-sealed-envelope`);
+    const btn = document.getElementById(`e1-seal-btn`);
+    const ta = document.getElementById(`e1-title-card`);
+    if (env) env.style.display = `block`;
+    if (btn) btn.textContent = `Unseal to Edit`;
+    if (ta) ta.disabled = true;
+  }
+
+  setVal(`cat-c`, appState.catCard.c);
+  setVal(`cat-a1`, appState.catCard.a1);
+  setVal(`cat-t1`, appState.catCard.t1);
+  setVal(`cat-a2`, appState.catCard.a2);
+  setVal(`cat-l`, appState.catCard.l);
+  setVal(`cat-y`, appState.catCard.y);
+  setVal(`cat-s`, appState.catCard.s);
+  setVal(`cat-t2`, appState.catCard.t2);
+
+  setVal(`t1-work`, appState.t1.work);
+  setVal(`t1-commute`, appState.t1.commute);
+  setVal(`t1-family`, appState.t1.family);
+  setVal(`t1-study`, appState.t1.study);
+  setVal(`t1-rest`, appState.t1.rest);
+  setVal(`t1-leaks`, appState.t1.leaks);
+  setVal(`t1-fixes`, appState.t1.fixes);
+
+  setVal(`pcc-roles`, appState.pcc.roles);
+  setVal(`pcc-goals`, appState.pcc.goals);
+  setVal(`pcc-priorities`, appState.pcc.priorities);
+  setVal(`pcc-constraints`, appState.pcc.constraints);
+  setVal(`pcc-energy`, appState.pcc.energy);
+  setVal(`pcc-style`, appState.pcc.style);
+
+  setVal(`t3-outcomes`, appState.t3.outcomes);
+  setVal(`t3-block`, appState.t3.block);
+  setVal(`t3-buffer`, appState.t3.buffer);
+  setVal(`t3-score`, appState.t3.score);
+
+  setVal(`t5-role`, appState.t5.role);
+  setVal(`t5-context`, appState.t5.context);
+  setVal(`t5-standards`, appState.t5.standards);
+  setVal(`t5-format`, appState.t5.format);
+  setVal(`t5-guardrails`, appState.t5.guardrails);
+  setVal(`t5-check`, appState.t5.check);
+
+  setVal(`t6-impact`, appState.t6.impact);
+  setVal(`t6-feas`, appState.t6.feas);
+  setVal(`t7-process`, appState.t7.process);
+  setVal(`t7-dataclass`, appState.t7.dataclass);
+  setVal(`t7-before`, appState.t7.before);
+  setVal(`t7-after`, appState.t7.after);
+  setVal(`t7-checkpoint`, appState.t7.checkpoint);
+  setVal(`t7-measure`, appState.t7.measure);
+
+  setVal(`t8-lesson-sit`, appState.t8Lesson.sit);
+  setVal(`t8-lesson-rule`, appState.t8Lesson.rule);
+  setVal(`t9-purpose`, appState.t9.purpose);
+  setVal(`t9-paths`, appState.t9.paths);
+  setVal(`t9-learning`, appState.t9.learning);
+
+  setVal(`t10-week1`, appState.t10.week1);
+  setVal(`t10-m1`, appState.t10.m1);
+  setVal(`t10-partner`, appState.t10.partner);
+  setVal(`exit-use`, appState.t10.exitUse);
+  setVal(`exit-conf`, appState.t10.exitConf);
+}
+
+function updateMasteryProgress() {
+  let done = 0;
+  if (appState.e1Sealed || (appState.e1Text && appState.e1Text.trim().length > 10)) done++;
+  if (Object.keys(appState.e2Choices).length >= 8) done++;
+  if (appState.catCard.c.trim().length > 3 && appState.catCard.a2.trim().length > 3) done++;
+  if (appState.pcc.roles.trim().length > 3 && appState.pcc.goals.trim().length > 3) done++;
+  if (appState.e5Checked.length >= 2) done++;
+  if (appState.e8Tested.length >= 3) done++;
+  if (appState.t8Skills.length >= 2 || appState.t9.purpose.trim().length > 5) done++;
+  if (appState.t10.week1.trim().length > 5) done++;
+
+  const pct = Math.round((done / 8) * 100);
+  const countEl = document.getElementById(`mastery-count`);
+  const pctEl = document.getElementById(`mastery-pct`);
+  const barEl = document.getElementById(`mastery-bar`);
+  if (countEl) countEl.textContent = `${done} of 8 Hands-On Milestones`;
+  if (pctEl) pctEl.textContent = `${pct}%`;
+  if (barEl) barEl.style.width = `${pct}%`;
+}
+
+// =========================================================================
+// 4. OPENING: DEMO D1 & EXERCISE E1
+// =========================================================================
+
+function setD1View(mode) {
+  const out = document.getElementById(`d1-output`);
+  const bRaw = document.getElementById(`d1-btn-raw`);
+  const bAi = document.getElementById(`d1-btn-ai`);
+  const bCatch = document.getElementById(`d1-btn-catch`);
+  [bRaw, bAi, bCatch].forEach((b) => { if (b) b.classList.remove(`btn-active`); });
+
+  if (mode === `raw`) {
+    if (bRaw) bRaw.classList.add(`btn-active`);
+    if (out) out.textContent = E5_DATA.A.raw;
+  } else if (mode === `ai`) {
+    if (bAi) bAi.classList.add(`btn-active`);
+    if (out) out.textContent = `1. FIVE-LINE SUMMARY: Planning Dept met (Mrs Bello chairing). Q3 report remains incomplete due to missing Kano & Enugu inputs; deadline upheld. Training balance (₦2.1m) divided opinion between ICT and records; costs requested. Field vehicle repair needs Admin approval, and memo-tracking proposal requested.\n\n2. DECISIONS: No extension on Q3 report.\n\n3. ACTION LIST:\n• Musa — Follow up Kano & Enugu data (Due: 15th)\n• Eze — Submit ICT vs. Records training costs (Due: Friday)\n• Adamu — Submit vehicle repair request to Admin (Due: Immediately)\n• Ibrahim — Draft memo-tracking proposal (Due: End of month)\n• Eze — Coordinate Mr Danjuma send-forth (Due: 28th)\n\n4. FOLLOW-UP EMAIL: Dear Colleagues, please find attached the summary and action items from Monday's Planning Department meeting...`;
+  } else {
+    if (bCatch) bCatch.classList.add(`btn-active`);
+    if (out) out.textContent = `TEACHER'S CATCH: Look closely at that crisp-looking action table above!\n\nBecause we gave a quick, unguarded prompt, the AI quietly guessed:\n• It assigned Ibrahim to write the memo-tracking proposal (he only reported the complaint!).\n• It assigned Eze to cost the training options and invented "Due: Friday".\n• It accepted "the 15th", "end of month", and "the 28th" with no month.\n\nLesson: An hour of drafting became a minute of review—but YOU must build the check-and-flag guardrail (taught in Pillar 2).`;
+  }
+}
+
+function toggleSealTitleCard() {
+  const ta = document.getElementById(`e1-title-card`);
+  const env = document.getElementById(`e1-sealed-envelope`);
+  const btn = document.getElementById(`e1-seal-btn`);
+  const status = document.getElementById(`e1-status`);
+  if (!ta || !btn || !env) return;
+
+  if (!appState.e1Sealed) {
+    if (ta.value.trim().length < 8) {
+      if (status) status.textContent = `Write at least one full sentence before sealing.`;
+      return;
+    }
+    appState.e1Text = ta.value.trim();
+    appState.e1Sealed = true;
+    ta.disabled = true;
+    env.style.display = `block`;
+    btn.textContent = `Unseal to Edit`;
+    if (status) status.textContent = `Title Card sealed!`;
+  } else {
+    appState.e1Sealed = false;
+    ta.disabled = false;
+    env.style.display = `none`;
+    btn.textContent = `Seal Title Card`;
+    if (status) status.textContent = `Unsealed for editing.`;
+  }
+  saveState();
+}
+
+// =========================================================================
+// 5. SECTION 01: E2 CARD SORT, CATALYST LOOP, D2 & E3
+// =========================================================================
+
+function renderE2Cards() {
+  const container = document.getElementById(`e2-cards-container`);
+  const scoreEl = document.getElementById(`e2-score-display`);
+  if (!container) return;
+
+  let correct = 0;
+  let html = ``;
+
+  E2_CARDS.forEach((card) => {
+    const picked = appState.e2Choices[card.id];
+    const isCorrect = picked === card.answer;
+    if (picked && isCorrect) correct++;
+
+    const clsG = picked === `Green` ? `chosen-green` : ``;
+    const clsA = picked === `Amber` ? `chosen-amber` : ``;
+    const clsR = picked === `Red` ? `chosen-red` : ``;
+
+    let fb = ``;
+    if (picked) {
+      fb = `<div class="feedback-line ${isCorrect ? `feedback-ok` : `feedback-warn`}"><strong>${isCorrect ? `Correct (${card.answer})` : `Answer: ${card.answer}`}</strong> — ${card.reason}</div>`;
+    }
+
+    html += `
+      <div class="sort-card">
+        <div>
+          <span class="index-num">CARD ${String(card.id).padStart(2, `0`)}</span>
+          <p style="margin: 0.25rem 0 0; font-weight: 600;">${card.text}</p>
+        </div>
+        <div class="sort-choices">
+          <button type="button" class="sort-btn ${clsG}" onclick="pickE2Card(${card.id}, 'Green')">Green</button>
+          <button type="button" class="sort-btn ${clsA}" onclick="pickE2Card(${card.id}, 'Amber')">Amber</button>
+          <button type="button" class="sort-btn ${clsR}" onclick="pickE2Card(${card.id}, 'Red')">Red</button>
+        </div>
+        ${fb}
+      </div>
+    `;
+  });
+
+  container.innerHTML = html;
+  if (scoreEl) scoreEl.textContent = `Score: ${correct} / 10`;
+}
+
+function pickE2Card(id, choice) {
+  appState.e2Choices[id] = choice;
+  renderE2Cards();
+  saveState();
+}
+
+function renderCatalystRail() {
+  const rail = document.getElementById(`catalyst-rail`);
+  if (!rail) return;
+  let html = ``;
+  CATALYST_STAGES.forEach((st, idx) => {
+    html += `
+      <button type="button" class="cat-step-btn ${idx === appState.catalystStep ? `active` : ``}" onclick="setCatalystStep(${idx})">
+        <span class="cat-letter">${st.letter}</span>
+        <span class="cat-word">${st.word}</span>
+      </button>
+    `;
+  });
+  rail.innerHTML = html;
+}
+
+function setCatalystStep(idx) {
+  appState.catalystStep = idx;
+  renderCatalystRail();
+  const panel = document.getElementById(`catalyst-detail-panel`);
+  const st = CATALYST_STAGES[idx];
+  if (!panel || !st) return;
+
+  panel.innerHTML = `
+    <div class="dossier-bar">
+      <div class="dossier-bar-left">
+        <span class="dossier-pill">Stage ${idx + 1} of 8</span>
+        <span class="dossier-meta">${st.letter} · ${st.word}</span>
+      </div>
+    </div>
+    <h3 class="subhead">${st.title}</h3>
+    <p style="font-weight: 600; color: var(--secondary); margin: var(--space-xs) 0 var(--space-sm);">Ask yourself: "${st.question}"</p>
+    <p class="prose"><strong>Rule of thumb:</strong> ${st.rule}</p>
+    <div class="aside-box" style="margin-top: var(--space-sm);">
+      <span class="field-label">Public-Sector &amp; Life Example</span>
+      <p style="margin: var(--space-xs) 0 var(--space-sm);">${st.example}</p>
+      <span class="tag tag-slate">${st.tool}</span>
+    </div>
+  `;
+}
+
+function setD2Mode(mode) {
+  const el = document.getElementById(`d2-preview`);
+  const bW = document.getElementById(`d2-weak-btn`);
+  const bS = document.getElementById(`d2-strong-btn`);
+  if (bW) bW.classList.toggle(`btn-active`, mode === `weak`);
+  if (bS) bS.classList.toggle(`btn-active`, mode === `strong`);
+  if (!el) return;
+
+  if (mode === `weak`) {
+    el.textContent = `PROMPT: "Plan my week."\n\nOUTPUT (Generic):\n• Monday: Wake up at 6 AM, meditate, check emails, do high-priority work 9–12, lunch, afternoon meetings, evening gym.\n• Tuesday–Friday: Repeat similar schedule.\n\nTEACHER'S NOTE: This could belong to anyone on Earth. It ignores your 90-minute commute, evening power cuts, family duties, and energy slump.`;
+  } else {
+    el.textContent = `PROMPT: Role (Assistant Director, parent of 3, student, treasurer) + Commute (75–90m) + Energy (sharp 5–9 AM, low after 8 PM, power cuts) + Fixed Commitments + Check ("mark any clash & list assumptions").\n\nOUTPUT (Tailored):\n• Tue & Thu 5:30–6:30 AM: Study block placed at peak energy before commute & evening power risks.\n• Wed 10:00–11:30 AM: Protected office block for Q3 report draft (due Thursday).\n• CLASH FLAGGED: Wed 5:00 PM school event conflicts with 4:00 PM close + 90-min commute—suggest leaving office at 3:15 PM.\n• ASSUMPTIONS LISTED: Assumed no weekend travel; Friday family dinner protected.`;
+  }
+}
+
+function saveCatalystCard() {
+  const g = (id) => { const el = document.getElementById(id); return el ? el.value : ``; };
+  appState.catCard = {
+    c: g(`cat-c`), a1: g(`cat-a1`), t1: g(`cat-t1`), a2: g(`cat-a2`),
+    l: g(`cat-l`), y: g(`cat-y`), s: g(`cat-s`), t2: g(`cat-t2`)
+  };
+  saveState();
+}
+
+function copyCatalystCard() {
+  saveCatalystCard();
+  const c = appState.catCard;
+  const txt = `CATALYST PROBLEM CARD\nC - Clarify: ${c.c}\nA - Assess AI & Data: ${c.a1}\nT - Tell Context: ${c.t1}\nA - Ask Precisely: ${c.a2}\nL - Loop: ${c.l}\nY - Your Judgement: ${c.y}\nS - Systemise: ${c.s}\nT - Track Gain: ${c.t2}`;
+  copyTextToClipboard(txt, `cat-copy-status`, `CATALYST card copied to clipboard!`);
+}
+
+// =========================================================================
+// 6. PILLAR 1: AUDIT (T1), CONTEXT CARD (T2), WEEKLY PLAN (T3)
+// =========================================================================
+
+function updateAuditHours(skipSave) {
+  const num = (id) => {
+    const el = document.getElementById(id);
+    return el ? Math.max(0, parseFloat(el.value) || 0) : 0;
+  };
+  const work = num(`t1-work`);
+  const commute = num(`t1-commute`);
+  const family = num(`t1-family`);
+  const study = num(`t1-study`);
+  const rest = num(`t1-rest`);
+  const total = work + commute + family + study + rest;
+  const rem = Math.round((168 - total) * 10) / 10;
+
+  const remEl = document.getElementById(`t1-unaccounted`);
+  const noteEl = document.getElementById(`t1-hours-note`);
+  if (remEl) remEl.textContent = `${rem} hrs / 168 hrs`;
+  if (noteEl) {
+    noteEl.textContent = rem < 0
+      ? `Over 168 hours—some commitments overlap or need trimming`
+      : `Unstructured, transitional, or attention-leak hours`;
+  }
+
+  const setW = (id, hrs) => {
+    const el = document.getElementById(id);
+    if (el) el.style.width = `${Math.min(100, (hrs / Math.max(168, total)) * 100)}%`;
+  };
+  setW(`seg-work`, work);
+  setW(`seg-commute`, commute);
+  setW(`seg-family`, family);
+  setW(`seg-study`, study);
+  setW(`seg-rest`, rest);
+
+  if (!skipSave) savePillar1();
+}
+
+function loadAminaAudit() {
+  document.getElementById(`t1-work`).value = 40;
+  document.getElementById(`t1-commute`).value = 14;
+  document.getElementById(`t1-family`).value = 26;
+  document.getElementById(`t1-study`).value = 8;
+  document.getElementById(`t1-rest`).value = 49;
+  document.getElementById(`t1-leaks`).value = `Time leaks: meetings without agendas; late-night report writing.\nAttention leaks: checking WhatsApp ~6x/hr (~70 min/day); weekend errands.`;
+  document.getElementById(`t1-fixes`).value = `Non-negotiables: Friday family dinner, children's school events.\nFixes: two 20-min message windows; 5:30 AM study block; no weekend work.`;
+  updateAuditHours();
+}
+
+function savePillar1() {
+  const val = (id) => { const el = document.getElementById(id); return el ? el.value : ``; };
+  appState.t1 = {
+    work: parseFloat(val(`t1-work`)) || 0,
+    commute: parseFloat(val(`t1-commute`)) || 0,
+    family: parseFloat(val(`t1-family`)) || 0,
+    study: parseFloat(val(`t1-study`)) || 0,
+    rest: parseFloat(val(`t1-rest`)) || 0,
+    leaks: val(`t1-leaks`),
+    fixes: val(`t1-fixes`)
+  };
+  appState.t3 = {
+    outcomes: val(`t3-outcomes`),
+    block: val(`t3-block`),
+    buffer: parseFloat(val(`t3-buffer`)) || 20,
+    score: val(`t3-score`)
+  };
+  saveState();
+}
+
+function loadAminaContextCard() {
+  document.getElementById(`pcc-roles`).value = `Assistant Director (Planning & Statistics), mother of three, part-time professional student, community association treasurer`;
+  document.getElementById(`pcc-goals`).value = `Pass professional certificate exams (in 4 months), deliver departmental annual plan on time, exercise 3x/week, stop weekend work`;
+  document.getElementById(`pcc-priorities`).value = `1. Standardise Q3 zonal reporting; 2. Complete exam revision modules; 3. Protect family evenings twice a week`;
+  document.getElementById(`pcc-constraints`).value = `8:00–4:00 work hours, 75–90 min commute each way, evening power cuts, husband works shifts`;
+  document.getElementById(`pcc-energy`).value = `Best focus 5:00–9:00 AM, lowest after 8:00 PM. Non-negotiables: Friday family dinner & school events`;
+  document.getElementById(`pcc-style`).value = `Direct, short bullets, Nigerian English, ask one question at a time, flag all schedule assumptions`;
+  renderContextCard();
+}
+
+function renderContextCard(skipSave) {
+  const v = (id) => { const el = document.getElementById(id); return el ? el.value.trim() : ``; };
+  const pcc = {
+    roles: v(`pcc-roles`),
+    goals: v(`pcc-goals`),
+    priorities: v(`pcc-priorities`),
+    constraints: v(`pcc-constraints`),
+    energy: v(`pcc-energy`),
+    style: v(`pcc-style`)
+  };
+  appState.pcc = pcc;
+
+  const text = `PERSONAL CONTEXT CARD\n• Who I am & Roles: ${pcc.roles || `[Fill your roles]`}\n• 12-Month Goals: ${pcc.goals || `[Fill your 12-month goals]`}\n• Quarter Top 3 Priorities: ${pcc.priorities || `[Fill top 3 priorities]`}\n• Constraints: ${pcc.constraints || `[Commute, power, hours, device]`}\n• Energy & Non-Negotiables: ${pcc.energy || `[Peak hours & protected family time]`}\n• Response Style: ${pcc.style || `[Tone, length, challenge level]`}\n• Standing rule: Do not ask for, and warn me if I share, confidential government information, personal data about other people, passwords, or account details.`;
+
+  const outEl = document.getElementById(`pcc-output`);
+  const wcEl = document.getElementById(`pcc-word-count`);
+  const words = text.split(/\s+/).filter(Boolean).length;
+
+  if (outEl) outEl.textContent = text;
+  if (wcEl) {
+    wcEl.textContent = `${words} / 350 words`;
+    wcEl.className = `tag tabular ${words <= 350 ? `tag-green` : `tag-amber`}`;
+  }
+  if (!skipSave) saveState();
+}
+
+function copyContextCard(type) {
+  const outEl = document.getElementById(`pcc-output`);
+  const card = outEl ? outEl.textContent : ``;
+  const payload = type === `assistant`
+    ? `You are my Chief of Staff. At the start of every chat, read my Personal Context Card below. Be direct and brief. Ask one question at a time when you need information. Never invent facts about my schedule. When I say Sunday Reset, plan my week; when I say Friday Review, run my weekly review.\n\n${card}`
+    : card;
+  copyTextToClipboard(payload, `pcc-copy-status`, type === `assistant` ? `Chief of Staff system instruction copied!` : `Personal Context Card copied!`);
+}
+
+// =========================================================================
+// 7. PILLAR 2: E5 NOTES, E6 HALLUCINATION HUNT, T5 ASSISTANT
+// =========================================================================
+
+function setE5Pack(packKey) {
+  appState.e5Pack = packKey;
+  const bA = document.getElementById(`e5-pack-a`);
+  const bA2 = document.getElementById(`e5-pack-a2`);
+  if (bA) bA.classList.toggle(`btn-active`, packKey === `A`);
+  if (bA2) bA2.classList.toggle(`btn-active`, packKey === `A2`);
+
+  const data = E5_DATA[packKey];
+  const rawEl = document.getElementById(`e5-raw-notes`);
+  const p7El = document.getElementById(`e5-p7-output`);
+  const ambEl = document.getElementById(`e5-ambiguities`);
+
+  if (rawEl) rawEl.textContent = data.raw;
+  if (p7El) p7El.textContent = data.output;
+  if (ambEl) {
+    let html = ``;
+    data.ambiguities.forEach((item, idx) => {
+      const key = `${packKey}_${idx}`;
+      const checked = appState.e5Checked.includes(key);
+      html += `<button type="button" class="btn-secondary btn-sm ${checked ? `btn-active` : ``}" onclick="toggleE5Ambiguity('${key}')">${checked ? `Flagged: ` : `Flag: `}${item}</button>`;
+    });
+    ambEl.innerHTML = html;
+  }
+  saveState();
+}
+
+function toggleE5Ambiguity(key) {
+  const pos = appState.e5Checked.indexOf(key);
+  if (pos >= 0) appState.e5Checked.splice(pos, 1);
+  else appState.e5Checked.push(key);
+  setE5Pack(appState.e5Pack);
+}
+
+function setE6Step(step) {
+  appState.e6Step = step;
+  [1, 2, 3].forEach((n) => {
+    const b = document.getElementById(`e6-step-${n}`);
+    if (b) b.classList.toggle(`btn-active`, n === step);
+  });
+  const el = document.getElementById(`e6-sim-output`);
+  if (!el) return;
+
+  if (step === 1) {
+    el.textContent = `PROMPT (P8): Summarise Pack C (FAIM/REC/2026/014) for the Director, Administration. Quote clauses exactly. Write "not stated" if absent.\n\nAI OUTPUT: Files indexed within 5 working days (Clause 1); closed files held 3 years (Clause 2); originals never leave registry (Clause 3); monthly returns due 7th working day to Director, Administration (Clause 4); GL 10+ Liaison Officer required (Clause 5); approved shared repository only (Clause 6).`;
+  } else if (step === 2) {
+    el.textContent = `PROMPT (Source-Bound): "What penalty does Circular FAIM/REC/2026/014 prescribe for late submission of monthly records returns? Quote the clause."\n\nAI OUTPUT: "Not stated in the document. Clause 4 gives the due date (7th working day of the next month), but no penalty for late submission is specified."\n\nTEACHER'S VERDICT: Good! Grounding + explicit instruction prevented guessing.`;
+  } else {
+    el.textContent = `PROMPT (Ungrounded Trap): "Without using any document, tell me the legal penalty in Nigerian public-service rules for late records returns, and quote the section number."\n\nTYPICAL UNGROUNDED AI TRAP: "Under Section 04302 of the Public Service Rules, heads of unit face a formal query and surcharge of ₦25,000..." [CONTAINS PLAUSIBLE-SOUNDING HALLUCINATED SECTION/FIGURE!]\n\nTEACHER'S LESSON: Fluency is not accuracy. Never sign off on a cited law or figure without checking the official text!`;
+  }
+}
+
+function renderE6Log() {
+  const tbody = document.getElementById(`e6-log-body`);
+  if (!tbody) return;
+  let html = ``;
+  appState.e6Log.forEach((row, idx) => {
+    html += `
+      <tr>
+        <td>${row.claim}</td>
+        <td>${row.source}</td>
+        <td><span class="tag tag-slate">${row.rung}</span></td>
+        <td>
+          <select aria-label="Verdict for check ${idx + 1}" onchange="updateE6Verdict(${idx}, this.value)">
+            <option value="Verified" ${row.verdict === `Verified` ? `selected` : ``}>Verified</option>
+            <option value="Rejected (Hallucination)" ${row.verdict === `Rejected (Hallucination)` ? `selected` : ``}>Rejected (Hallucination)</option>
+            <option value="Needs Subject Check" ${row.verdict === `Needs Subject Check` ? `selected` : ``}>Needs Subject Check</option>
+          </select>
+        </td>
+      </tr>
+    `;
+  });
+  tbody.innerHTML = html;
+}
+
+function updateE6Verdict(idx, val) {
+  if (appState.e6Log[idx]) {
+    appState.e6Log[idx].verdict = val;
+    saveState();
+  }
+}
+
+function renderT5Presets() {
+  const wrap = document.getElementById(`t5-role-presets`);
+  if (!wrap) return;
+  let html = ``;
+  T5_PRESETS.forEach((p, idx) => {
+    html += `<button type="button" class="btn-secondary btn-sm" onclick="loadT5Preset(${idx})">Preset: ${p.name}</button>`;
+  });
+  wrap.innerHTML = html;
+  runT5Test(`typical`);
+}
+
+function loadT5Preset(idx) {
+  const p = T5_PRESETS[idx];
+  if (!p) return;
+  appState.t5 = { ...p };
+  document.getElementById(`t5-role`).value = p.role;
+  document.getElementById(`t5-context`).value = p.context;
+  document.getElementById(`t5-standards`).value = p.standards;
+  document.getElementById(`t5-format`).value = p.format;
+  document.getElementById(`t5-guardrails`).value = p.guardrails;
+  document.getElementById(`t5-check`).value = p.check;
+  saveState();
+  runT5Test(`typical`);
+}
+
+function saveT5() {
+  const g = (id) => { const el = document.getElementById(id); return el ? el.value : ``; };
+  appState.t5 = {
+    name: `Custom Assistant`,
+    role: g(`t5-role`),
+    context: g(`t5-context`),
+    standards: g(`t5-standards`),
+    format: g(`t5-format`),
+    guardrails: g(`t5-guardrails`),
+    check: g(`t5-check`)
+  };
+  saveState();
+}
+
+function runT5Test(mode) {
+  const b1 = document.getElementById(`t5-test-typical`);
+  const b2 = document.getElementById(`t5-test-tricky`);
+  const out = document.getElementById(`t5-test-output`);
+  if (b1) b1.classList.toggle(`btn-active`, mode === `typical`);
+  if (b2) b2.classList.toggle(`btn-active`, mode === `tricky`);
+  if (!out) return;
+
+  if (mode === `typical`) {
+    out.textContent = `INPUT: "Quarterly planning review, 2 hours, six unit heads and the Director, background: Q3 targets were missed in two zones."\n\nASSISTANT RESPONSE:\n• Objective: Diagnose Q3 shortfalls across two zones and agree corrective actions.\n• Agenda (120 min): 1. Opening (10m) · 2. Zonal Data Review (35m) · 3. Root-Cause Barriers (35m) · 4. Recovery Plan & Owners (30m) · 5. Closing Script (10m).\n• CHECK: I still need the exact names of the two zones and specific Q3 figures from you—I will not invent them.`;
+  } else {
+    out.textContent = `TRICKY VAGUE INPUT: "Meeting tomorrow about the thing we discussed."\n\nGUARDRAIL-PASSING RESPONSE:\n"I cannot prepare your meeting pack yet because my guardrails forbid inventing attendees, topics, or decisions. Before I draft the agenda, please tell me:\n1. What is the meeting's purpose and topic?\n2. Who is attending by role, and how long will it last?\n3. What single decision must come out of it?"`;
+  }
+}
+
+function copyAssistantSpec() {
+  saveT5();
+  const t = appState.t5;
+  const spec = `ROLE: ${t.role}\nCONTEXT: ${t.context}\nSTANDARDS: ${t.standards}\nFORMAT: ${t.format}\nGUARDRAILS: ${t.guardrails}\nCHECK: ${t.check}`;
+  copyTextToClipboard(spec, `t5-copy-status`, `Instruction Card copied! Paste into a Gem, Project, or Custom GPT.`);
+}
+
+// =========================================================================
+// 8. PILLAR 3: LAB E8 NOTEBOOK, PACK F CHARTS, WORKFLOW T6/T7
+// =========================================================================
+
+function renderE8Questions() {
+  const wrap = document.getElementById(`e8-questions`);
+  if (!wrap) return;
+  let html = ``;
+  E8_QUESTIONS.forEach((item, idx) => {
+    const active = idx === appState.e8QuestionIdx;
+    html += `<button type="button" class="btn-secondary btn-sm ${active ? `btn-active` : ``}" style="justify-content: flex-start; text-align: left;" onclick="selectE8Question(${idx})"><span class="index-num" style="color: inherit;">Q${idx + 1}</span> ${item.q}</button>`;
+  });
+  wrap.innerHTML = html;
+}
+
+function selectE8Question(idx) {
+  appState.e8QuestionIdx = idx;
+  if (!appState.e8Tested.includes(idx)) appState.e8Tested.push(idx);
+  renderE8Questions();
+
+  const q = E8_QUESTIONS[idx];
+  const ansBox = document.getElementById(`e8-answer-box`);
+  if (q && ansBox) {
+    ansBox.innerHTML = `<span class="tag tag-slate" style="margin-bottom: 0.4rem;">Notebook Grounded Answer</span>\n${q.ans}\n\n<button type="button" class="btn-secondary btn-sm" style="margin-top: 0.6rem;" onclick="highlightE8Citation('${q.doc}', '${q.clause}')">Verify Citation in Pack ${q.doc} (${q.clause})</button>`;
+    highlightE8Citation(q.doc, q.clause, true);
+  }
+  saveState();
+}
+
+function selectE8Doc(docKey, highlightClause) {
+  appState.e8Doc = docKey;
+  [`C`, `D`, `E`].forEach((k) => {
+    const b = document.getElementById(`e8-doc-${k}`);
+    if (b) b.classList.toggle(`btn-active`, k === docKey);
+  });
+
+  const viewer = document.getElementById(`e8-doc-viewer`);
+  const doc = E8_DOCS[docKey];
+  if (!viewer || !doc) return;
+
+  let html = `<div style="font-weight: 700; margin-bottom: 0.6rem; color: var(--secondary);">${doc.title}</div>`;
+  doc.clauses.forEach((c) => {
+    const isHit = highlightClause === c.id;
+    html += `<div id="clause-${c.id}" class="doc-clause ${isHit ? `cited-hit` : ``}">${c.text}</div>`;
+  });
+  viewer.innerHTML = html;
+}
+
+function highlightE8Citation(docKey, clauseId, skipScroll) {
+  selectE8Doc(docKey, clauseId);
+  const target = document.getElementById(`clause-${clauseId}`);
+  if (target && !skipScroll) {
+    target.scrollIntoView({ block: `nearest`, behavior: `smooth` });
+  }
+}
+
+function renderPackFTable() {
+  const tbody = document.getElementById(`pack-f-table`);
+  if (!tbody) return;
+  let html = ``;
+  PACK_F_DATA.forEach((z) => {
+    const compPct = ((z.completed / z.planned) * 100).toFixed(1);
+    const utilPct = ((z.utilised / z.released) * 100).toFixed(1);
+    const rowCls = z.status === `alert` ? `row-alert` : (z.zone === `Lagos` ? `row-highlight` : ``);
+    html += `
+      <tr class="${rowCls}">
+        <td><strong>${z.zone}</strong></td>
+        <td class="num-col">${z.planned}</td>
+        <td class="num-col">${z.completed} (${compPct}%)</td>
+        <td class="num-col">₦${z.utilised}m (${utilPct}%)</td>
+        <td class="num-col">${z.turnaround.toFixed(1)}d</td>
+        <td class="num-col">${z.q2}%</td>
+      </tr>
+    `;
+  });
+  tbody.innerHTML = html;
+}
+
+function renderPackFChart() {
+  const canvas = document.getElementById(`pack-f-chart`);
+  if (!canvas || typeof Chart === `undefined`) return;
+  if (packFChartInstance) packFChartInstance.destroy();
+
+  const styles = getComputedStyle(document.documentElement);
+  const c1 = styles.getPropertyValue(`--data-1`).trim();
+  const c2 = styles.getPropertyValue(`--data-2`).trim();
+  const c4 = styles.getPropertyValue(`--data-4`).trim();
+
+  const labels = PACK_F_DATA.map((d) => d.zone);
+  const compRates = PACK_F_DATA.map((d) => Number(((d.completed / d.planned) * 100).toFixed(1)));
+  const utilRates = PACK_F_DATA.map((d) => Number(((d.utilised / d.released) * 100).toFixed(1)));
+  const compColors = PACK_F_DATA.map((d) => d.zone === `Kano` ? c4 : c1);
+
+  packFChartInstance = new Chart(canvas.getContext(`2d`), {
+    type: `bar`,
+    data: {
+      labels: labels,
+      datasets: [
+        { label: `Completion Rate %`, data: compRates, backgroundColor: compColors },
+        { label: `Budget Utilisation %`, data: utilRates, backgroundColor: c2 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: `bottom` }
+      },
+      scales: {
+        y: { beginAtZero: true, max: 110, title: { display: true, text: `Percentage (%)` } }
+      }
+    }
+  });
+}
+
+function toggleD7Brief() {
+  const panel = document.getElementById(`d7-brief-panel`);
+  const btn = document.getElementById(`d7-brief-btn`);
+  if (!panel || !btn) return;
+  const open = panel.style.display === `block`;
+  panel.style.display = open ? `none` : `block`;
+  btn.textContent = open ? `Show Management Brief & 3 DG Questions` : `Hide Management Brief`;
+}
+
+function applyProcessPreset() {
+  const sel = document.getElementById(`t7-process`);
+  if (!sel) return;
+  const preset = E9_PRESETS[sel.value];
+  if (!preset) return;
+  document.getElementById(`t6-impact`).value = preset.impact;
+  document.getElementById(`t6-feas`).value = preset.feas;
+  document.getElementById(`t7-dataclass`).value = preset.dataclass;
+  document.getElementById(`t7-before`).value = preset.before;
+  document.getElementById(`t7-after`).value = preset.after;
+  document.getElementById(`t7-checkpoint`).value = preset.checkpoint;
+  document.getElementById(`t7-measure`).value = preset.measure;
+  updatePitch();
+}
+
+function updatePitch(skipSave) {
+  const g = (id) => { const el = document.getElementById(id); return el ? el.value : ``; };
+  const imp = Math.min(5, Math.max(1, parseInt(g(`t6-impact`), 10) || 1));
+  const feas = Math.min(5, Math.max(1, parseInt(g(`t6-feas`), 10) || 1));
+  const scoreEl = document.getElementById(`t6-score-val`);
+  if (scoreEl) scoreEl.textContent = String(imp * feas);
+
+  appState.t6 = { impact: imp, feas: feas };
+  appState.t7 = {
+    process: g(`t7-process`),
+    dataclass: g(`t7-dataclass`),
+    before: g(`t7-before`),
+    after: g(`t7-after`),
+    checkpoint: g(`t7-checkpoint`),
+    measure: g(`t7-measure`)
+  };
+
+  const pitchEl = document.getElementById(`t7-pitch-preview`);
+  if (pitchEl) {
+    pitchEl.textContent = `"We will move ${appState.t7.process} from ${appState.t7.before} to ${appState.t7.after}, with a human checkpoint where ${appState.t7.checkpoint}, needing ${appState.t7.dataclass}, measured by ${appState.t7.measure}."`;
+  }
+  if (!skipSave) saveState();
+}
+
+function copyWorkflowDesign() {
+  updatePitch();
+  const pitch = document.getElementById(`t7-pitch-preview`).textContent;
+  const txt = `OPPORTUNITY SCORE (T6): ${appState.t6.impact * appState.t6.feas}/25\nWORKFLOW PITCH (T7): ${pitch}`;
+  copyTextToClipboard(txt, `t7-copy-status`, `Workflow pitch & T6/T7 design copied!`);
+}
+
+// =========================================================================
+// 9. PILLAR 4: TITLE REVEAL, SKILLS T8, FUTURE PLAN T9
+// =========================================================================
+
+function revealTitleCard() {
+  const box = document.getElementById(`p4-title-reveal`);
+  if (!box) return;
+  const txt = appState.e1Text && appState.e1Text.trim()
+    ? appState.e1Text.trim()
+    : `(You haven't written a Title Card in the Opening yet—scroll up to Exercise E1 or reflect on your identity beyond your title right here.)`;
+  box.textContent = `YOUR OPENING TITLE CARD:\n"${txt}"\n\nNOW ASK YOURSELF: Knowing your transferable assets (Skills, Knowledge, Relationships, Reputation), what strength would you add to that card today?`;
+}
+
+function loadNwosuCase() {
+  appState.t8Skills = [
+    { skill: `Stores & Asset Control`, evidence: `Introduced asset tagging across 6 zonal stores`, level: `4`, who: `Public depots & private warehouses`, use: `Advisory & audit support` },
+    { skill: `Procedure Manual Writing`, evidence: `Authored stores manual used by ~200 storekeepers`, level: `4`, who: `Cooperatives & SMEs`, use: `Publish practical stores handbook` },
+    { skill: `Mentoring & Technical Training`, evidence: `Trains new storekeepers yearly; mentored 2 junior staff`, level: `4`, who: `Trade associations`, use: `Part-time workshop facilitation` }
+  ];
+  document.getElementById(`t8-lesson-sit`).value = `We tagged zonal assets before counting them, so we tagged items that no longer existed.`;
+  document.getElementById(`t8-lesson-rule`).value = `Count, reconcile, then tag.`;
+  document.getElementById(`t9-purpose`).value = `Turning 28 years of logistics stewardship into practical training and small-enterprise advisory.`;
+  renderT8Skills();
+  savePillar4();
+}
+
+function renderT8Skills() {
+  const tbody = document.getElementById(`t8-skills-body`);
+  if (!tbody) return;
+  let html = ``;
+  appState.t8Skills.forEach((s, idx) => {
+    html += `
+      <tr>
+        <td><strong>${s.skill}</strong></td>
+        <td>${s.evidence}</td>
+        <td class="num-col">${s.level}</td>
+        <td>${s.who}</td>
+        <td>${s.use} <button type="button" class="btn-secondary btn-sm" style="margin-left: 0.4rem; min-height: 32px; padding: 0.15rem 0.5rem;" onclick="removeSkillRow(${idx})">Remove</button></td>
+      </tr>
+    `;
+  });
+  tbody.innerHTML = html;
+}
+
+function addSkillRow() {
+  const sk = document.getElementById(`t8-new-skill`).value.trim();
+  const ev = document.getElementById(`t8-new-evidence`).value.trim();
+  const wh = document.getElementById(`t8-new-who`).value.trim();
+  if (!sk) return;
+
+  appState.t8Skills.push({
+    skill: sk,
+    evidence: ev || `Applied across recurring duties`,
+    level: `3`,
+    who: wh || `Teams outside current post`,
+    use: `Mentoring, handbook, or consulting`
+  });
+  document.getElementById(`t8-new-skill`).value = ``;
+  document.getElementById(`t8-new-evidence`).value = ``;
+  document.getElementById(`t8-new-who`).value = ``;
+  renderT8Skills();
+  saveState();
+}
+
+function removeSkillRow(idx) {
+  appState.t8Skills.splice(idx, 1);
+  renderT8Skills();
+  saveState();
+}
+
+function renderT9Checklist() {
+  const wrap = document.getElementById(`t9-checklist`);
+  if (!wrap) return;
+  let html = ``;
+  T9_CHECKLIST_ITEMS.forEach((item) => {
+    const checked = appState.t9.checks.includes(item.id);
+    html += `
+      <button type="button" class="btn-secondary btn-sm ${checked ? `btn-active` : ``}" style="justify-content: flex-start; text-align: left; height: auto; padding: 0.65rem 0.85rem;" onclick="toggleT9Check('${item.id}')">
+        <span>${checked ? `[Confirmed] ` : `[To Check] `}${item.label}</span>
+      </button>
+    `;
+  });
+  wrap.innerHTML = html;
+}
+
+function toggleT9Check(id) {
+  const idx = appState.t9.checks.indexOf(id);
+  if (idx >= 0) appState.t9.checks.splice(idx, 1);
+  else appState.t9.checks.push(id);
+  renderT9Checklist();
+  saveState();
+}
+
+function savePillar4() {
+  const g = (id) => { const el = document.getElementById(id); return el ? el.value : ``; };
+  appState.t8Lesson = { sit: g(`t8-lesson-sit`), rule: g(`t8-lesson-rule`) };
+  appState.t9.purpose = g(`t9-purpose`);
+  appState.t9.paths = g(`t9-paths`);
+  appState.t9.learning = g(`t9-learning`);
+  saveState();
+}
+
+// =========================================================================
+// 10. PROMPT LIBRARY (P1-P24) & CLOSING (T10 + GAIN LOG)
+// =========================================================================
+
+function setPromptPillar(pillar, btn) {
+  appState.promptPillar = pillar;
+  const tabs = document.getElementById(`prompt-pillar-tabs`);
+  if (tabs) {
+    Array.from(tabs.querySelectorAll(`button`)).forEach((b) => b.classList.remove(`btn-active`));
+  }
+  if (btn) btn.classList.add(`btn-active`);
+  renderPromptLibrary();
+}
+
+function renderPromptLibrary() {
+  const grid = document.getElementById(`prompt-library-grid`);
+  if (!grid) return;
+  const search = (document.getElementById(`prompt-search`)?.value || ``).toLowerCase().trim();
+  const dataF = document.getElementById(`prompt-data-filter`)?.value || `ALL`;
+
+  const filtered = PROMPTS.filter((p) => {
+    if (appState.promptPillar !== `ALL` && p.pillar !== appState.promptPillar) return false;
+    if (dataF !== `ALL` && p.data !== dataF) return false;
+    if (search && !(`${p.id} ${p.title} ${p.when} ${p.prompt}`.toLowerCase().includes(search))) return false;
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="figure-card"><p class="muted">No prompts match that filter. Clear the search box or switch back to All (24).</p></div>`;
+    return;
+  }
+
+  let html = ``;
+  filtered.forEach((p) => {
+    const isSaved = appState.savedPrompts.includes(p.id);
+    const dataTagCls = p.data === `Green` ? `tag-green` : `tag-amber`;
+    const placeholders = Array.from(new Set((p.prompt.match(/\[([A-Z0-9_]+)\]/g) || []).filter((x) => x !== `[MISSING]` && x !== `[UNCLEAR]` && x !== `[CHECK]` && x !== `[VERIFY]`)));
+
+    let placeholderInputs = ``;
+    placeholders.forEach((ph) => {
+      const clean = ph.replace(/\[|\]/g, ``).replace(/_/g, ` `);
+      placeholderInputs += `
+        <div class="form-field">
+          <label class="field-label" for="ph-${p.id}-${clean}">${clean}</label>
+          <input type="text" id="ph-${p.id}-${clean}" data-ph="${ph}" placeholder="Enter ${clean.toLowerCase()}...">
+        </div>
+      `;
+    });
+
+    html += `
+      <article class="prompt-card" id="card-${p.id}">
+        <div class="dossier-bar" style="margin-bottom: var(--space-xs);">
+          <div class="dossier-bar-left">
+            <span class="index-num">${p.id}</span>
+            <span class="tag tag-slate">Pillar ${p.pillar}</span>
+            <span class="tag ${dataTagCls}">${p.data}</span>
+          </div>
+          <button type="button" class="btn-secondary btn-sm ${isSaved ? `btn-active` : ``}" onclick="toggleSavePrompt('${p.id}')">${isSaved ? `Saved to T4` : `Save to T4`}</button>
+        </div>
+        <h3 class="subhead" style="margin: 0;">${p.title}</h3>
+        <p class="muted" style="margin: 0;"><strong>Use when:</strong> ${p.when}</p>
+        <div class="prompt-text-box">${p.prompt}</div>
+        <p class="muted" style="margin: 0;"><strong>Verify before use:</strong> ${p.verify}</p>
+
+        <details>
+          <summary>Customise Placeholders &amp; Copy (${placeholders.length} fields)</summary>
+          <div style="padding-top: var(--space-sm);">
+            <div class="form-grid">${placeholderInputs || `<p class="muted">No custom placeholders needed—ready to copy!</p>`}</div>
+            <div class="btn-row" style="margin-top: var(--space-sm);">
+              <button type="button" class="btn-primary btn-sm" onclick="copyCustomPrompt('${p.id}')">Copy Tailored Prompt</button>
+              <span class="inline-status" id="copy-msg-${p.id}"></span>
+            </div>
+          </div>
+        </details>
+      </article>
+    `;
+  });
+
+  grid.innerHTML = html;
+}
+
+function toggleSavePrompt(id) {
+  const idx = appState.savedPrompts.indexOf(id);
+  if (idx >= 0) appState.savedPrompts.splice(idx, 1);
+  else appState.savedPrompts.push(id);
+  renderPromptLibrary();
+  saveState();
+}
+
+function copyCustomPrompt(id) {
+  const p = PROMPTS.find((x) => x.id === id);
+  const card = document.getElementById(`card-${id}`);
+  if (!p || !card) return;
+
+  let text = p.prompt;
+  const inputs = card.querySelectorAll(`input[data-ph]`);
+  inputs.forEach((inp) => {
+    const val = inp.value.trim();
+    if (val) {
+      text = text.split(inp.dataset.ph).join(val);
+    }
+  });
+  copyTextToClipboard(text, `copy-msg-${id}`, `Prompt ${id} copied to clipboard!`);
+}
+
+function saveClosing() {
+  const g = (id) => { const el = document.getElementById(id); return el ? el.value : ``; };
+  appState.t10 = {
+    week1: g(`t10-week1`),
+    m1: g(`t10-m1`),
+    partner: g(`t10-partner`),
+    exitUse: g(`exit-use`),
+    exitConf: g(`exit-conf`)
+  };
+  saveState();
+}
+
+function addGainLogEntry() {
+  const task = document.getElementById(`gain-task`).value.trim();
+  const before = parseInt(document.getElementById(`gain-before`).value, 10) || 0;
+  const after = parseInt(document.getElementById(`gain-after`).value, 10) || 0;
+  const errors = parseInt(document.getElementById(`gain-errors`).value, 10) || 0;
+  if (!task) return;
+
+  appState.gainLog.push({ task, before, after, errors });
+  document.getElementById(`gain-task`).value = ``;
+  renderGainLog();
+  saveState();
+}
+
+function renderGainLog() {
+  const tbody = document.getElementById(`gain-log-body`);
+  const totalEl = document.getElementById(`gain-total-saved`);
+  if (!tbody) return;
+
+  let totalSaved = 0;
+  let html = ``;
+  appState.gainLog.forEach((row) => {
+    const saved = Math.max(0, row.before - row.after);
+    totalSaved += saved;
+    html += `
+      <tr>
+        <td>${row.task}</td>
+        <td class="num-col">${saved} min</td>
+        <td class="num-col">${row.errors}</td>
+      </tr>
+    `;
+  });
+  tbody.innerHTML = html;
+  if (totalEl) totalEl.textContent = `${totalSaved} min saved`;
+}
+
+// =========================================================================
+// 11. UTILITIES: CLIPBOARD, DOWNLOAD WORKBOOK, INLINE RESET
+// =========================================================================
+
+function copyTextToClipboard(text, statusElId, successMsg) {
+  const el = document.getElementById(statusElId);
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      if (el) el.textContent = successMsg;
+    }).catch(() => {
+      if (el) el.textContent = `Copy ready—select text manually if blocked.`;
+    });
+  } else if (el) {
+    el.textContent = `Copy ready—select text manually.`;
+  }
+}
+
+function exportFullWorkbook() {
+  const pccOut = document.getElementById(`pcc-output`)?.textContent || ``;
+  const pitchOut = document.getElementById(`t7-pitch-preview`)?.textContent || ``;
+  const content = [
+    `THE AI-POWERED PRODUCTIVE LIFE — PERSONAL WORKBOOK EXPORT`,
+    `========================================================`,
+    ``,
+    `1. TITLE CARD (E1): ${appState.e1Text || `[Not yet filled]`}`,
+    ``,
+    `2. CATALYST CARD (E3):`,
+    JSON.stringify(appState.catCard, null, 2),
+    ``,
+    `3. PERSONAL CONTEXT CARD (T2):`,
+    pccOut,
+    ``,
+    `4. WEEKLY PLANNER (T3):`,
+    `Outcomes:\n${appState.t3.outcomes}`,
+    `Deep-Work Block & Delegations:\n${appState.t3.block}`,
+    ``,
+    `5. PROFESSIONAL ASSISTANT INSTRUCTION CARD (T5):`,
+    `Role: ${appState.t5.role}`,
+    `Standards: ${appState.t5.standards}`,
+    `Guardrails: ${appState.t5.guardrails}`,
+    ``,
+    `6. DEPARTMENTAL WORKFLOW REDESIGN (T6 & T7):`,
+    `Score: ${appState.t6.impact * appState.t6.feas}/25`,
+    pitchOut,
+    ``,
+    `7. SKILLS INVENTORY & FUTURE PLAN (T8 & T9):`,
+    `Purpose: ${appState.t9.purpose}`,
+    `Skills: ${appState.t8Skills.map((s) => `${s.skill} (${s.evidence})`).join(` | `)}`,
+    `Career Rule of Thumb: ${appState.t8Lesson.rule}`,
+    ``,
+    `8. 90-DAY PLEDGE (T10) & SAVED PROMPTS (T4):`,
+    `First 3 Actions:\n${appState.t10.week1}`,
+    `Saved Prompts: ${appState.savedPrompts.join(`, `) || `None yet`}`
+  ].join(`\n`);
+
+  const fb = document.getElementById(`export-feedback`);
+  if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+    window.notebookAppApi.triggerFileDownload({
+      content: content,
+      contentType: `text/plain`,
+      encoding: `UTF-8`,
+      filename: `ai_productive_life_workbook.txt`
+    });
+    if (fb) fb.textContent = `Workbook downloaded!`;
+  } else if (fb) {
+    fb.textContent = `Download ready inside Gemini Notebook.`;
+  }
+}
+
+function handleResetAll(btn) {
+  if (!btn) return;
+  if (btn.dataset.armed !== `true`) {
+    btn.dataset.armed = `true`;
+    btn.textContent = `Click Again to Confirm Reset`;
+    return;
+  }
+  btn.dataset.armed = `false`;
+  btn.textContent = `Reset Progress`;
+
+  appState = {
+    e1Text: ``, e1Sealed: false, e2Choices: {}, catalystStep: 0,
+    catCard: { c: ``, a1: ``, t1: ``, a2: ``, l: ``, y: ``, s: ``, t2: `` },
+    t1: { work: 40, commute: 14, family: 28, study: 8, rest: 49, leaks: ``, fixes: `` },
+    pcc: { roles: ``, goals: ``, priorities: ``, constraints: ``, energy: ``, style: `` },
+    t3: { outcomes: ``, block: ``, buffer: 20, score: `0` },
+    e5Pack: `A`, e5Checked: [], e6Step: 1,
+    e6Log: [
+      { claim: `Files must be indexed within 5 working days of opening`, source: `Pack C, Clause 1: "within 5 working days"`, rung: `Source-check`, verdict: `Verified` },
+      { claim: `Late monthly records returns carry a ₦10,000 fine (ungrounded AI)`, source: `Pack C has NO penalty clause`, rung: `Source-check`, verdict: `Rejected (Hallucination)` },
+      { claim: `Monthly returns go to Director, Administration by 7th working day`, source: `Pack C, Clause 4 matches exactly`, rung: `Source-check`, verdict: `Verified` }
+    ],
+    t5: { ...T5_PRESETS[0] },
+    e8QuestionIdx: 0, e8Doc: `C`, e8Tested: [0],
+    t6: { impact: 5, feas: 4 },
+    t7: { ...E9_PRESETS[`Incoming correspondence and memo routing`], process: `Incoming correspondence and memo routing` },
+    t8Skills: [{ skill: `Stores Procedure Writing`, evidence: `Wrote manual used by ~200 storekeepers across 6 zones`, level: `4`, who: `Cooperatives & SMEs`, use: `Practical handbook / training course` }],
+    t8Lesson: { sit: ``, rule: `` },
+    t9: { purpose: ``, paths: ``, learning: ``, checks: [] },
+    promptPillar: `ALL`, savedPrompts: [],
+    t10: { week1: ``, m1: ``, partner: ``, exitUse: `0`, exitConf: `0` },
+    gainLog: [{ task: `Notes to action list (Pack A test)`, before: 60, after: 12, errors: 3 }]
+  };
+
+  const ta = document.getElementById(`e1-title-card`);
+  const env = document.getElementById(`e1-sealed-envelope`);
+  const sealBtn = document.getElementById(`e1-seal-btn`);
+  if (ta) ta.disabled = false;
+  if (env) env.style.display = `none`;
+  if (sealBtn) sealBtn.textContent = `Seal Title Card`;
+
+  hydrateAllInputs();
+  renderE2Cards();
+  setCatalystStep(0);
+  updateAuditHours(true);
+  renderContextCard(true);
+  setE5Pack(`A`);
+  setE6Step(1);
+  renderE6Log();
+  selectE8Question(0);
+  updatePitch(true);
+  renderT8Skills();
+  renderT9Checklist();
+  renderPromptLibrary();
+  renderGainLog();
+  saveState();
+}
+</script>
+</body>
+</html>
